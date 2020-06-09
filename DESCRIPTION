@@ -1,16 +1,28 @@
 Package: minvariance
-Title: What the Package Does (One Line, Title Case)
-Version: 0.0.0.9000
+Title: Longitudinal Measurement Invariance
+Version: 0.0.0.9001
 Authors@R: 
-    person(given = "First",
-           family = "Last",
+    person(given = "Milan",
+           family = "Wiedemann",
            role = c("aut", "cre"),
-           email = "first.last@example.com",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to
-    pick a license
+           email = "milan.wiedemann@gmail.com",
+           comment = c(ORCID = "0000-0003-1991-282X"))
+Description: Helper functions to test longitudinal measurement invariance / factorial variance over time.
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.0
+Imports:
+    lavaan (>= 0.6.2),
+    dplyr (>= 0.7.4),
+    tibble (>= 1.4.2),
+    magrittr (>= 1.5),
+    rlang (>= 0.1.6),
+    tidyr (>= 0.8.0),
+    ggplot2 (>= 2.2.1),
+    broom (>= 0.5.1),
+    semPlot (>= 1.1),
+    stats (>= 3.5.2),
+    stringr (>= 1.4.0),
+    purrr (>= 0.3.4)
