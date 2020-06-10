@@ -6,9 +6,11 @@
 \usage{
 specify_intercepts(
   n_items,
-  measure_name,
   n_timepoints,
-  model = c("configural", "weak", "strong", "strict")
+  model = c("configural", "weak", "strong", "strict"),
+  measure_name = "x",
+  time_str = "s",
+  item_str = "i"
 )
 }
 \arguments{

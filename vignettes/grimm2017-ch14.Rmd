@@ -1,0 +1,43 @@
+---
+title: "grimm2017-ch14"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{grimm2017-ch14}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(minvariance)
+library(tidyverse)
+
+data_url <- "https://quantdev.ssri.psu.edu/sites/qdev/files/ECLS_Science.csv"
+#read in the .csv file using the url() function
+data <- read_csv(file = url(data_url))
+
+```
+
+```{r}
+specify_latent_factors(n_items = 3, n_timepoints = 3, model = "configural") %>% cat()
+specify_latent_variable_variances(n_items = 3, n_timepoints = 3, model = "configural") %>% cat()
+specify_latent_variable_covariances(n_items = 3, n_timepoints = 3, model = "configural") %>% cat()
+
+specify_unique_variances(n_items = 3, n_timepoints = 3, model = "configural") %>% cat()
+specify_unique_covariances(n_items = 2, n_timepoints = 3, model = "configural") %>% cat()
+
+specify_latent_variable_means(n_items = 3, n_timepoints = 3, model = "configural") %>% cat()
+specify_latent_variable_means(n_items = 3, n_timepoints = 3, model = "configural") %>% cat()
+
+
+
+```
+

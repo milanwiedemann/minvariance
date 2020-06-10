@@ -26,3 +26,7 @@ Imports:
     stats (>= 3.5.2),
     stringr (>= 1.4.0),
     purrr (>= 0.3.4)
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
