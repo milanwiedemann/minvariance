@@ -1,7 +1,8 @@
 # Unique covariance struggle
-
-n_timepoints <- 3
-n_items <- 17
+# Works fine if n time and n items are the same
+# if not the same there are nas ...
+n_timepoints <- 4
+n_items <- 4
 
 var_session <-  paste0(paste0("x", "_s", rep(c(1:n_timepoints), times = n_items)))
 var_session
