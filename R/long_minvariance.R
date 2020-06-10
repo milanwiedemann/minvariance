@@ -11,15 +11,14 @@
 #' @export
 #'
 #' @examples
-long_minvariance <- function(data, n_timepoints, n_items, measure_name = "x", details = FALSE, return = c("fit_statistics", "model_tests", "lavaan_objects", "lavaan_syntax")) {
+long_minvariance <- function(data, n_timepoints, n_items, add = NULL, measure_name = "x", details = FALSE, return = c("fit_statistics", "model_tests", "lavaan_objects", "lavaan_syntax")) {
 
   return <- match.arg(return)
 
-
-  configural_syntax <- suppressMessages(long_minvariance_syntax(measure_name = measure_name, n_timepoints = n_timepoints, n_items = n_items, model = "configural"))
-  weak_syntax <- suppressMessages(long_minvariance_syntax(measure_name = measure_name, n_timepoints = n_timepoints, n_items = n_items, model = "weak"))
-  strong_syntax <- suppressMessages(long_minvariance_syntax(measure_name = measure_name, n_timepoints = n_timepoints, n_items = n_items, model = "strong"))
-  strict_syntax <- suppressMessages(long_minvariance_syntax(measure_name = measure_name, n_timepoints = n_timepoints, n_items = n_items, model = "strict"))
+  configural_syntax <- suppressMessages(long_minvariance_syntax(measure_name = measure_name, n_timepoints = n_timepoints, n_items = n_items, add = add, model = "configural"))
+  weak_syntax <- suppressMessages(long_minvariance_syntax(measure_name = measure_name, n_timepoints = n_timepoints, n_items = n_items, add = add, model = "weak"))
+  strong_syntax <- suppressMessages(long_minvariance_syntax(measure_name = measure_name, n_timepoints = n_timepoints, n_items = n_items, add = add, model = "strong"))
+  strict_syntax <- suppressMessages(long_minvariance_syntax(measure_name = measure_name, n_timepoints = n_timepoints, n_items = n_items, add = add, model = "strict"))
 
   configural <- cfa(model = configural_syntax, data = data, mimic = "mplus")
   weak <- cfa(model = weak_syntax, data = data, mimic = "mplus")

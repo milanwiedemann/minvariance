@@ -19,25 +19,72 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(minvariance)
 library(tidyverse)
+library(lavaan)
 
 data_url <- "https://quantdev.ssri.psu.edu/sites/qdev/files/ECLS_Science.csv"
 #read in the .csv file using the url() function
-data <- read_csv(file = url(data_url))
+data_raw <- read_csv(file = url(data_url)) %>% 
+  select("id", "s_g3", "r_g3", "m_g3", "s_g5", "r_g5", "m_g5", "s_g8", "r_g8", "m_g8")
 
+# rename so functions work
+data <- data_raw
+names(data) <- c("id", "x_t1_i1", "x_t1_i2", "x_t1_i3", "x_t2_i1", "x_t2_i2", "x_t2_i3", "x_t3_i1", "x_t3_i2", "x_t3_i3")
+
+data
 ```
 
+
+
 ```{r}
-specify_latent_factors(n_items = 3, n_timepoints = 3, model = "configural") %>% cat()
-specify_latent_variable_variances(n_items = 3, n_timepoints = 3, model = "configural") %>% cat()
-specify_latent_variable_covariances(n_items = 3, n_timepoints = 3, model = "configural") %>% cat()
-
-specify_unique_variances(n_items = 3, n_timepoints = 3, model = "configural") %>% cat()
-specify_unique_covariances(n_items = 2, n_timepoints = 3, model = "configural") %>% cat()
-
-specify_latent_variable_means(n_items = 3, n_timepoints = 3, model = "configural") %>% cat()
-specify_latent_variable_means(n_items = 3, n_timepoints = 3, model = "configural") %>% cat()
+# test functions
+specify_latent_factors(n_items = 3, n_timepoints = 3, model = "strict") %>% cat()
+specify_latent_variable_variances(n_items = 3, n_timepoints = 3, model = "strict") %>% cat()
+specify_unique_variances(n_items = 3, n_timepoints = 3, model = "strict") %>% cat()
+specify_latent_variable_means(n_items = 3, n_timepoints = 3, model = "strict") %>% cat()
+specify_observed_intercepts(n_items = 3, n_timepoints = 3, model = "strict") %>% cat()
+```
 
 
+```{r}
+# specify covariances, my functions dont really work for this atm
+latent_variable_covariances <- c(
+"# Latent Variable Covariances ----
+eta1 ~~ eta2
+eta1 ~~ eta3
+eta2 ~~ eta3")
+
+unique_covariances <- c(
+"\n# Unique Covariances ----
+x_t1_i1 ~~ x_t2_i1
+x_t1_i1 ~~ x_t3_i1
+x_t2_i1 ~~ x_t3_i1
+x_t1_i2 ~~ x_t2_i2
+x_t1_i2 ~~ x_t3_i2
+x_t2_i2 ~~ x_t3_i2
+x_t1_i3 ~~ x_t2_i3
+x_t1_i3 ~~ x_t3_i3
+x_t2_i3 ~~ x_t3_i3")
+```
+
+
+```{r}
+long_minvariance_syntax(n_items = 3, n_timepoints = 3, model = "configural", add = c(latent_variable_covariances, unique_covariances)) %>% cat()
+configural <- long_minvariance_syntax(n_items = 3, n_timepoints = 3, model = "configural", add = c(latent_variable_covariances, unique_covariances))
+
+fit_configural <- lavaan(configural,
+                      data = data,
+                      meanstructure = TRUE,
+                      estimator = "ML",
+                      missing = "fiml",
+                      fixed.x = FALSE)
+
+summary(fit_configural, fit.measures=TRUE)
+```
+
+
+```{r}
+
+long_minvariance(data = data, n_items = 3, n_timepoints = 3, add = c(latent_variable_covariances, unique_covariances))
 
 ```
 
