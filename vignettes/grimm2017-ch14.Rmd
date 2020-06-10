@@ -97,7 +97,7 @@ summary(fit_configural, fit.measures=TRUE)
 semPaths(fit_configural, 
          what="path",
          whatLabels = "name",
-         sizeInt = 4, sizeMan = 5, sizeLat = 9
+         sizeInt = 4, sizeMan = 5, sizeLat = 6
          )
 
 ```
@@ -124,7 +124,7 @@ summary(fit_strict, fit.measures=TRUE)
 semPaths(fit_strict, 
          what="path",
          whatLabels = "name",
-         sizeInt = 4, sizeMan = 5, sizeLat = 9
+         sizeInt = 4, sizeMan = 5, sizeLat = 6
          )
 
 ```
@@ -192,7 +192,7 @@ summary(fit_configural, fit.measures = TRUE)
 semPaths(fit_configural, 
          what="path",
          whatLabels = "name",
-         sizeInt = 4, sizeMan = 5, sizeLat = 9
+         sizeInt = 4, sizeMan = 5, sizeLat = 6
          )
 
 ```
