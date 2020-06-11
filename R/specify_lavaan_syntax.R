@@ -124,44 +124,48 @@ specify_latent_variable_means <- function(n_items, n_timepoints, model = c("conf
 }
 
 
-# specify_latent_variable_covariances <- function(n_items, n_timepoints, model = c("configural", "weak", "strong", "strict"), measure_name = "x", time_str = "s", item_str = "i"){
-#
-#   model <- match.arg(model)
-#
-#   latent_factors <- ""
-#   lavaan_str_time <- list()
-#
-#   latent_factors <- paste0("eta", 1:n_timepoints)
-#
-#   # Create empty string
-#   other_latent_covariances <- ""
-#
-#   # Count latent variables
-#   n_latent_variables <- length(latent_factors)
-#
-#   # Now specify a first set of latent covariances
-#   first_latent_covariances <- paste0(latent_factors[1], " ~~ ", latent_factors[-1], "\n", collapse = "")
-#
-#   # If there are more than 2 latent variables loop for the other latent covariances
-#
-#   if (n_latent_variables == 2) {
-#     other_latent_covariances <- ""
-#   }
-#
-#   if (n_latent_variables > 2) {
-#
-#     for (index_lvar in 2:(n_latent_variables - 1)) {
-#
-#       other_latent_covariances <- paste0(other_latent_covariances,
-#                                          latent_factors[index_lvar], " ~~ ", latent_factors[(index_lvar + 1):n_latent_variables],
-#                                          "\n", collapse = "")
-#     }
-#
-#   }
-#
-#   paste0(first_latent_covariances, other_latent_covariances, collapse = "")
-#
-# }
+#' Title
+#'
+#' @param n_items
+#' @param n_timepoints
+#' @param model
+#' @param measure_name
+#' @param time_str
+#' @param item_str
+#'
+#' @return
+#' @export
+#'
+#' @examples
+specify_latent_variable_covariances <- function(n_items, n_timepoints, model = c("configural", "weak", "strong", "strict"), measure_name = "x", time_str = "s", item_str = "i"){
+
+  model <- match.arg(model)
+
+  if (model %in% c("configural", "weak", "strong", "strict")) {
+
+    # Create variable names
+    latent_factors <- list()
+    latent_factors <- paste0("eta", 1:n_timepoints)
+
+    # Create empty list for first looop
+    covars_list <- list()
+
+    #  get pairs
+    covars_unlist <- combn(latent_factors, m = 2, FUN = NULL, simplify = FALSE)
+
+    # Create empty list for second looop
+    covars_list_lavaan <- list()
+
+    for (icovar in seq_along(covars_unlist)) {
+
+      covars_list_lavaan[[icovar]] <- paste0(covars_unlist[[icovar]][1], " ~~ ", covars_unlist[[icovar]][2], "\n")
+
+    }
+  }
+
+  return(paste0(covars_list_lavaan, collapse = ""))
+
+}
 
 
 
@@ -247,53 +251,55 @@ specify_unique_variances <- function(n_items, n_timepoints, model = c("configura
 
 
 
-# specify_unique_covariances <- function(n_items, n_timepoints, model = c("configural", "weak", "strong", "strict"), measure_name = "x", time_str = "_t", item_str = "_i"){
-#
-#   model <- match.arg(model)
-#
-#   var_session_item <- ""
-#   lavaan_str_time <- list()
-#
-#   # Create variable names
-#   var_session <-  paste0(paste0("x", "_t", rep(c(1:n_timepoints), times = n_items)))
-#   var_item <- paste0("_i", rep(c(1:n_items), each = n_timepoints))
-#   var_session_item <- paste0(var_session, var_item)
-#   var_session_item_list <- split(var_session_item, ceiling(seq_along(var_session_item) / n_timepoints))
-#
-#   # Create empty string
-#   first_unique_covariances <- ""
-#   other_unique_covariances <- ""
-#
-#
-#   for (item in 1:n_items) {
-#     # Now specify a first set of unique covariances
-#     first_unique_covariances[item] <- paste0(var_session_item_list[[item]][1], " ~~ ", var_session_item_list[[item]][-1], "\n", collapse = "")
-#
-#   }
-#
-#
-#   # If there are more than 2 unique variables loop for the other unique covariances
-#
-#   if (n_items == 2) {
-#     other_unique_covariances <- ""
-#   }
-#
-#   if (n_items > 2) {
-#
-#     for (index_uitem in 2:(n_items - 1)) {
-#
-#       other_unique_covariances <- paste0(other_unique_covariances,
-#                                          var_session_item_list[[arsch]][index_uitem], " ~~ ", var_session_item_list[[arsch]][(index_uitem + 1):n_items],
-#                                          "\n", collapse = "")
-#     }
-#
-#   }
-#
-#   paste0(first_unique_covariances, other_unique_covariances, collapse = "")
-# }
+#' Title
+#'
+#' @param n_items
+#' @param n_timepoints
+#' @param model
+#' @param measure_name
+#' @param time_str
+#' @param item_str
+#'
+#' @return
+#' @export
+#'
+#' @examples
+specify_unique_covariances <- function(n_items, n_timepoints, model = c("configural", "weak", "strong", "strict"), measure_name = "x", time_str = "_t", item_str = "_i"){
 
+  model <- match.arg(model)
 
+  if (model %in% c("configural", "weak", "strong", "strict")) {
 
+  # Create variable names
+  var_session <-  paste0(paste0(measure_name, time_str, rep(c(1:n_timepoints), times = n_items)))
+  var_item <- paste0(item_str, rep(c(1:n_items), each = n_timepoints))
+  var_session_item <- paste0(var_session, var_item)
+  var_list_item <- split(var_session_item, ceiling(seq_along(var_session_item) / n_timepoints))
+
+  # Create empty list for first looop
+  covars_list <- list()
+
+  # First loop to get pairs
+  for (item in 1:n_items) {
+    covars_list[[item]] <- combn(var_list_item[[item]], m = 2, FUN = NULL, simplify = FALSE)
+  }
+
+  # Unlist to make next step easier
+  covars_unlist <-  unlist(covars_list, recursive = FALSE)
+
+  # Create empty list for second looop
+  covars_list_lavaan <- list()
+
+  for (icovar in seq_along(covars_unlist)) {
+
+    covars_list_lavaan[[icovar]] <- paste0(covars_unlist[[icovar]][1], " ~~ ", covars_unlist[[icovar]][2], "\n")
+
+  }
+  }
+
+  return(paste0(covars_list_lavaan, collapse = ""))
+
+}
 
 
 
@@ -328,29 +334,33 @@ tidy_lavaan_str <- function(syntax_heading, lavaan_str) {
 #' @export
 #'
 #' @examples
-long_minvariance_syntax <- function(n_items, n_timepoints, add = NULL, model = c("configural", "weak", "strong", "strict"), measure_name = "x", time_str = "_t", item_str = "_i") {
+long_minvariance_syntax <- function(n_items, n_timepoints, add = NULL, remove = NULL, model = c("configural", "weak", "strong", "strict"), measure_name = "x", time_str = "_t", item_str = "_i") {
 
   model <- match.arg(model)
+
+  if (is.null(remove$unique_covar) == TRUE) {
+    remove$unique_covar <- FALSE
+  }
 
   message_start <- paste0(stringr::str_to_sentence(model), " Invariance Model")
 
   if (model == "configural") {
-    message_labels <- "(Pattern Invariance)\n"
+    message_labels <- "(Pattern Invariance)"
     # message_refs <- "References: Thurstone, (1947) and Horn, McArdle, & Mason, (1983)"
   }
 
   if (model == "weak") {
-    message_labels <-"(Metric Invariance, Loading Invariance)\n"
+    message_labels <-"(Metric Invariance, Loading Invariance)"
     # message_refs <- "Reference: Meredith (1993)"
   }
 
   if (model == "strong") {
-    message_labels <- "(Scalar Invariance, Intercept Invariance)\n"
+    message_labels <- "(Scalar Invariance, Intercept Invariance)"
     # message_refs <- "References: Super super reference (YEAR)"
   }
 
   if (model == "strict") {
-    message_labels <- "(Error Variance Invariance, Residual Invariance)\n"
+    message_labels <- "(Error Variance Invariance, Residual Invariance)"
     # message_refs <- "References: Super super reference (YEAR)"
   }
 
@@ -375,14 +385,32 @@ long_minvariance_syntax <- function(n_items, n_timepoints, add = NULL, model = c
     tidy_lavaan_str(syntax_heading = "# Specify Latent Variable Variances ----\n",
                     lavaan_str = specify_latent_variable_variances(measure_name = measure_name, n_timepoints = n_timepoints, n_items = n_items, model = model, time_str = time_str, item_str = item_str))
 
+
+  specify_latent_variable_covariances <-
+    tidy_lavaan_str(syntax_heading = "# Specify Latent Variable Covariances ----\n",
+                    lavaan_str = specify_latent_variable_covariances(measure_name = measure_name, n_timepoints = n_timepoints, n_items = n_items, model = model, time_str = time_str, item_str = item_str))
+
+
   lavaan_str_observed_intercepts <-
     tidy_lavaan_str(syntax_heading = "# Specify Observed Variable Intercepts ----\n",
                     lavaan_str = specify_observed_intercepts(measure_name = measure_name, n_timepoints = n_timepoints, n_items = n_items, model = model, time_str = time_str, item_str = item_str))
 
-
   lavaan_str_unique_variances <-
     tidy_lavaan_str(syntax_heading = "# Specify Unique Variances ----\n",
                     lavaan_str = specify_unique_variances(measure_name = measure_name, n_timepoints = n_timepoints, n_items = n_items, model = model, time_str = time_str, item_str = item_str))
+
+
+  if (remove$unique_covar == FALSE) {
+    lavaan_str_unique_covariances <-
+      tidy_lavaan_str(syntax_heading = "# Specify Unique Covariances ----\n",
+                      lavaan_str = specify_unique_covariances(measure_name = measure_name, n_timepoints = n_timepoints, n_items = n_items, model = model, time_str = time_str, item_str = item_str))
+
+  }
+
+  if (remove$unique_covar == TRUE) {
+    lavaan_str_unique_covariances <- "# Specify Unique Covariances ----\n# REMOVED\n"
+  }
+
 
 
   if (is.null(add) == TRUE) {
@@ -400,9 +428,10 @@ long_minvariance_syntax <- function(n_items, n_timepoints, add = NULL, model = c
                                       lavaan_str_latent_factors,
                                       lavaan_str_latent_variable_means,
                                       specify_latent_variable_variances,
-                                      # specify_latent_variable_covariances,
+                                      specify_latent_variable_covariances,
                                       lavaan_str_observed_intercepts,
                                       lavaan_str_unique_variances,
+                                      lavaan_str_unique_covariances,
                                       add_lavaan_syntax,
                                       collapse = "")
   return(lavaan_str_return)
