@@ -9,6 +9,7 @@ long_minvariance(
   n_timepoints,
   n_items,
   add = NULL,
+  remove = NULL,
   measure_name = "x",
   details = FALSE,
   return = c("fit_statistics", "model_tests", "lavaan_objects", "lavaan_syntax")

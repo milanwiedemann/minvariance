@@ -1,5 +1,5 @@
 ---
-title: "examples"
+title: "Replicating results from online tutorials"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{examples}
@@ -16,10 +16,6 @@ knitr::opts_chunk$set(
 )
 ```
 
-# grimm et al 2017 ch 14
-
-[Tutorial Link](https://quantdev.ssri.psu.edu/tutorials/growth-modeling-chapter-14-modeling-change-latent-variables-measured-continuous-indicators)
-
 ```{r setup}
 library(minvariance)
 library(tidyverse)
@@ -27,181 +23,120 @@ library(lavaan)
 library(semPlot)
 ```
 
+# Replicating Grimm et al (2017) Chapter 14
+
+- [Tutorial Link (Julie Wood)](https://quantdev.ssri.psu.edu/tutorials/growth-modeling-chapter-14-modeling-change-latent-variables-measured-continuous-indicators)
+
+## Load data
 
 ```{r data}
 data_url <- "https://quantdev.ssri.psu.edu/sites/qdev/files/ECLS_Science.csv"
-#read in the .csv file using the url() function
+
 data_raw <- read_csv(file = url(data_url)) %>% 
-  select("id", "s_g3", "r_g3", "m_g3", "s_g5", "r_g5", "m_g5", "s_g8", "r_g8", "m_g8")
+  select("id", 
+         "s_g3", "r_g3", "m_g3", 
+         "s_g5", "r_g5", "m_g5", 
+         "s_g8", "r_g8", "m_g8")
 
-# rename so functions work
+# Rename so functions work
 data <- data_raw
-names(data) <- c("id", "x_t1_i1", "x_t1_i2", "x_t1_i3", "x_t2_i1", "x_t2_i2", "x_t2_i3", "x_t3_i1", "x_t3_i2", "x_t3_i3")
-
-data
+names(data) <- c("id", 
+                 "x_t1_i1", "x_t1_i2", "x_t1_i3", 
+                 "x_t2_i1", "x_t2_i2", "x_t2_i3", 
+                 "x_t3_i1", "x_t3_i2", "x_t3_i3")
 ```
 
+## Fit statistics
 
-
-```{r}
-# test functions
-specify_latent_factors(n_items = 3, n_timepoints = 3, model = "strict") %>% cat()
-specify_latent_variable_variances(n_items = 3, n_timepoints = 3, model = "strict") %>% cat()
-specify_unique_variances(n_items = 3, n_timepoints = 3, model = "strict") %>% cat()
-specify_latent_variable_means(n_items = 3, n_timepoints = 3, model = "strict") %>% cat()
-specify_observed_intercepts(n_items = 3, n_timepoints = 3, model = "strict") %>% cat()
-```
-
-
-```{r}
-# specify covariances, my functions dont really work for this atm
-latent_variable_covariances <- c(
-"# Latent Variable Covariances ----
-eta1 ~~ eta2
-eta1 ~~ eta3
-eta2 ~~ eta3")
-
-unique_covariances <- c(
-"\n# Unique Covariances ----
-x_t1_i1 ~~ x_t2_i1
-x_t1_i1 ~~ x_t3_i1
-x_t2_i1 ~~ x_t3_i1
-x_t1_i2 ~~ x_t2_i2
-x_t1_i2 ~~ x_t3_i2
-x_t2_i2 ~~ x_t3_i2
-x_t1_i3 ~~ x_t2_i3
-x_t1_i3 ~~ x_t3_i3
-x_t2_i3 ~~ x_t3_i3")
-```
-
-
-```{r}
-# long_minvariance_syntax(n_items = 3, n_timepoints = 3, model = "configural", add = c(latent_variable_covariances, unique_covariances)) %>% cat()
-configural <- long_minvariance_syntax(n_items = 3, n_timepoints = 3, model = "configural", add = c(latent_variable_covariances, unique_covariances))
-
-# configural %>% cat
-
-fit_configural <- lavaan(configural,
-                         data = data,
-                         meanstructure = TRUE,
-                         estimator = "ML",
-                         missing = "fiml",
-                         fixed.x = FALSE)
-
-summary(fit_configural, fit.measures=TRUE)
-```
-
-
-```{r fig.height=5, fig.width=5, dpi=100}
-
-semPaths(fit_configural, 
-         what="path",
-         whatLabels = "name",
-         sizeInt = 4, sizeMan = 5, sizeLat = 6
-         )
-
-```
-
-
-```{r}
-# long_minvariance_syntax(n_items = 3, n_timepoints = 3, model = "strict", add = c(latent_variable_covariances, unique_covariances)) %>% cat()
-strict <- long_minvariance_syntax(n_items = 3, n_timepoints = 3, model = "strict", add = c(latent_variable_covariances, unique_covariances))
-
-
-fit_strict <- lavaan(strict,
-                         data = data,
-                         meanstructure = TRUE,
-                         estimator = "ML",
-                         missing = "fiml",
-                         fixed.x = FALSE)
-
-summary(fit_strict, fit.measures=TRUE)
-```
-
-
-```{r fig.height=5, fig.width=5, dpi=100}
-
-semPaths(fit_strict, 
-         what="path",
-         whatLabels = "name",
-         sizeInt = 4, sizeMan = 5, sizeLat = 6
-         )
-
-```
-
-```{r}
-
-long_minvariance(data = data, n_items = 3, n_timepoints = 3, add = c(latent_variable_covariances, unique_covariances)) %>% 
+```{r, warning=F}
+long_minvariance(data = data, 
+                 n_items = 3, n_timepoints = 3, 
+                 return = "fit_statistics") %>% 
   knitr::kable(digits = 3)
-
 ```
 
-# intro ram long factor analysis measurement invariance
+## Model tests
 
-[Tutorial Link](https://quantdev.ssri.psu.edu/tutorials/intro-basics-longitudinal-measurement-invariance)
+```{r, warning=F}
+long_minvariance(data = data, 
+                 n_items = 3, n_timepoints = 3, 
+                 return = "model_tests") %>% 
+  knitr::kable(digits = 3)
+```
+
+# Replicating Online Tutorial Results 
+
+- [Tutorial Link (Nilam Ram)](https://quantdev.ssri.psu.edu/tutorials/intro-basics-longitudinal-measurement-invariance)
+
+## Load data
 
 ```{r}
-#set filepath for data file
 filepath <- "https://quantdev.ssri.psu.edu/sites/qdev/files/WISC_MIexample.csv"
-#read in the .csv file using the url() function
-dat <- read_csv(file = url(filepath))
+data_raw2 <- read_csv(file = url(filepath))
 
+data2 <- data_raw2
 
-names(dat) <- c("id", "x_t1_i1", "x_t1_i2", "x_t1_i3", "x_t1_i4", "x_t2_i1", "x_t2_i2", "x_t2_i3", "x_t2_i4")
+names(data2) <- c("id", 
+                  "x_t1_i1", "x_t1_i2", "x_t1_i3", "x_t1_i4", 
+                  "x_t2_i1", "x_t2_i2", "x_t2_i3", "x_t2_i4")
 ```
 
+## Remove correlated uniqueness
 
 ```{r}
-# specify covariances, my functions dont really work for this atm
-latent_variable_covariances <- c(
-"# Latent Variable Covariances ----
-eta1 ~~ eta2")
+configural <- long_minvariance_syntax(n_items = 4, n_timepoints = 2, 
+                                      model = "configural", 
+                                      remove = list(unique_covar = T))
 
-unique_covariances <- c(
-"\n# Unique Covariances ----
-x_t1_i1 ~~ x_t2_i1
-x_t1_i2 ~~ x_t2_i2
-x_t1_i3 ~~ x_t2_i3
-x_t1_i4 ~~ x_t2_i4")
-```
-
-
-
-
-```{r}
-configural_t2_i4 <- long_minvariance_syntax(n_items = 4, n_timepoints = 2, model = "configural"
-                                      , add = c(latent_variable_covariances, unique_covariances)
-                                      ) 
-
-
-configural_t2_i4 %>% cat()
-
-fit_configural <- lavaan(configural_t2_i4,
-                         data = dat,
-                         meanstructure = TRUE,
-                         estimator = "ML",
-                         missing = "fiml",
-                         fixed.x = FALSE)
+fit_configural <- cfa(configural,
+                      data = data2)
 
 summary(fit_configural, fit.measures = TRUE)
 ```
 
-
 ```{r fig.height=5, fig.width=5, dpi=100}
-
 semPaths(fit_configural, 
          what="path",
          whatLabels = "name",
-         sizeInt = 4, sizeMan = 5, sizeLat = 6
-         )
-
+         sizeInt = 4, sizeMan = 5, sizeLat = 6)
 ```
 
-
+## Includeing correlated uniqueness
 
 ```{r}
+configural_unique <- long_minvariance_syntax(n_items = 4, n_timepoints = 2, 
+                                             model = "configural")
 
-long_minvariance(data = dat, n_items = 4, n_timepoints = 2, add = c(latent_variable_covariances)) %>% 
+fit_configural_unique <- cfa(configural_unique,
+                             data = data2)
+
+summary(fit_configural_unique, 
+        fit.measures = TRUE)
+```
+
+```{r fig.height=5, fig.width=5, dpi=100}
+semPaths(fit_configural_unique, 
+         what="path",
+         whatLabels = "name",
+         sizeInt = 4, sizeMan = 5, sizeLat = 6)
+```
+
+## Fit statistics
+
+```{r}
+long_minvariance(data = data2, 
+                 n_items = 4, n_timepoints = 2, 
+                 remove = list(unique_covar = T), 
+                 return = "fit_statistics") %>% 
   knitr::kable(digits = 3)
+```
 
+## Model tests
+
+```{r}
+long_minvariance(data = data2, 
+                 n_items = 4, n_timepoints = 2, 
+                 remove = list(unique_covar = T), 
+                 return = "model_tests") %>% 
+  knitr::kable(digits = 3)
 ```
