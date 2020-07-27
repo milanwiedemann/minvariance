@@ -1,6 +1,6 @@
 Package: minvariance
 Title: Longitudinal Measurement Invariance
-Version: 0.0.0.9001
+Version: 0.0.0.9002
 Authors@R: 
     person(given = "Milan",
            family = "Wiedemann",
@@ -12,7 +12,7 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 Imports:
     lavaan (>= 0.6.2),
     dplyr (>= 0.7.4),

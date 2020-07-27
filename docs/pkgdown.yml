@@ -1,0 +1,8 @@
+pandoc: 2.7.3
+pkgdown: 1.5.1
+pkgdown_sha: ~
+articles:
+  grimm2017-ch14: grimm2017-ch14.html
+  ram-online-tutorial: ram-online-tutorial.html
+last_built: 2020-07-27T08:51Z
+

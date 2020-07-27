@@ -1,4 +1,4 @@
-#' Title
+#' Extract fit statistics
 #'
 #' @param ...
 #' @param details
@@ -12,6 +12,9 @@ extract_fit <- function(..., details = FALSE) {
   lavaan_objects <- list(...)
 
   fit_data <- purrr::map_df(.x = lavaan_objects, .f = broom::glance, .id = "model")
+
+  fit_data <- fit_data %>%
+    rename_all(tolower)
 
   # Figure out a way to name these things
   # fit_return$model <- paste0("m", 1:length(lavaan_objects))

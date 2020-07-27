@@ -7,8 +7,12 @@
 
 <!-- badges: end -->
 
-The goal of `minvariance` is to help me understand and test longitudinal
-measurement invariance.
+The goal of `minvariance` is to help me understand longitudinal
+measurement invariance. I’m trying to see which parts of this method can
+be automated. Currently variable names need to be in a very specific
+format; `measure_timepoint_itemnumber`. The number of time points and
+items also need to be specified in separate arguments. **If you have any
+questions, ideas, or comments please get in touch.**
 
 ## Installation
 

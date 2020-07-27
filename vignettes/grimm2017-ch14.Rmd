@@ -1,13 +1,16 @@
 ---
-title: "Replicating results from online tutorials"
+title: "Replicating Grimm et al (2017) Chapter 14"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{examples}
+  %\VignetteIndexEntry{grimm-2017-ch14}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
   chunk_output_type: console
 ---
+
+- [Lavaan tutorial Link (by Julie Wood)](https://quantdev.ssri.psu.edu/tutorials/growth-modeling-chapter-14-modeling-change-latent-variables-measured-continuous-indicators)
+
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
@@ -22,10 +25,6 @@ library(tidyverse)
 library(lavaan)
 library(semPlot)
 ```
-
-# Replicating Grimm et al (2017) Chapter 14
-
-- [Tutorial Link (Julie Wood)](https://quantdev.ssri.psu.edu/tutorials/growth-modeling-chapter-14-modeling-change-latent-variables-measured-continuous-indicators)
 
 ## Load data
 
@@ -46,11 +45,22 @@ names(data) <- c("id",
                  "x_t3_i1", "x_t3_i2", "x_t3_i3")
 ```
 
+## lavaan objects
+
+```{r, warning=F}
+
+long_minvariance(data = data, 
+                 n_items = 3, 
+                 n_timepoints = 3, 
+                 return = "lavaan_objects")
+```
+
 ## Fit statistics
 
 ```{r, warning=F}
 long_minvariance(data = data, 
-                 n_items = 3, n_timepoints = 3, 
+                 n_items = 3, 
+                 n_timepoints = 3, 
                  return = "fit_statistics") %>% 
   knitr::kable(digits = 3)
 ```
@@ -58,85 +68,62 @@ long_minvariance(data = data,
 ## Model tests
 
 ```{r, warning=F}
+
 long_minvariance(data = data, 
-                 n_items = 3, n_timepoints = 3, 
+                 n_items = 3, 
+                 n_timepoints = 3, 
                  return = "model_tests") %>% 
   knitr::kable(digits = 3)
+
 ```
 
-# Replicating Online Tutorial Results 
+## lavaan syntax
 
-- [Tutorial Link (Nilam Ram)](https://quantdev.ssri.psu.edu/tutorials/intro-basics-longitudinal-measurement-invariance)
-
-## Load data
 
 ```{r}
-filepath <- "https://quantdev.ssri.psu.edu/sites/qdev/files/WISC_MIexample.csv"
-data_raw2 <- read_csv(file = url(filepath))
 
-data2 <- data_raw2
+lminvar_syntax <- long_minvariance(data = data, 
+                                   n_items = 3, 
+                                   n_timepoints = 3, 
+                                   return = "lavaan_syntax") 
 
-names(data2) <- c("id", 
-                  "x_t1_i1", "x_t1_i2", "x_t1_i3", "x_t1_i4", 
-                  "x_t2_i1", "x_t2_i2", "x_t2_i3", "x_t2_i4")
 ```
 
-## Remove correlated uniqueness
+### Configural
 
 ```{r}
-configural <- long_minvariance_syntax(n_items = 4, n_timepoints = 2, 
-                                      model = "configural", 
-                                      remove = list(unique_covar = T))
 
-fit_configural <- cfa(configural,
-                      data = data2)
+lminvar_syntax$configural %>% 
+  cat()
 
-summary(fit_configural, fit.measures = TRUE)
 ```
 
-```{r fig.height=5, fig.width=5, dpi=100}
-semPaths(fit_configural, 
-         what="path",
-         whatLabels = "name",
-         sizeInt = 4, sizeMan = 5, sizeLat = 6)
-```
 
-## Includeing correlated uniqueness
+### Configural
 
 ```{r}
-configural_unique <- long_minvariance_syntax(n_items = 4, n_timepoints = 2, 
-                                             model = "configural")
 
-fit_configural_unique <- cfa(configural_unique,
-                             data = data2)
+lminvar_syntax$weak %>% 
+  cat()
 
-summary(fit_configural_unique, 
-        fit.measures = TRUE)
 ```
 
-```{r fig.height=5, fig.width=5, dpi=100}
-semPaths(fit_configural_unique, 
-         what="path",
-         whatLabels = "name",
-         sizeInt = 4, sizeMan = 5, sizeLat = 6)
-```
 
-## Fit statistics
+### Strong
 
 ```{r}
-long_minvariance(data = data2, 
-                 n_items = 4, n_timepoints = 2, 
-                 remove = list(unique_covar = T), 
-                 return = "fit_statistics") %>% 
-  knitr::kable(digits = 3)
+
+lminvar_syntax$strong %>% 
+  cat()
+
 ```
 
-## Model tests
+
+### Strict
 
 ```{r}
-long_minvariance(data = data2, 
-                 n_items = 4, n_timepoints = 2, 
-                 remove = list(unique_covar = T), 
-                 return = "model_tests") %>% 
-  knitr::kable(digits = 3)
+
+lminvar_syntax$strict %>% 
+  cat()
+
 ```

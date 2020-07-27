@@ -2,7 +2,7 @@
 % Please edit documentation in R/extract_fit.R
 \name{extract_fit}
 \alias{extract_fit}
-\title{Title}
+\title{Extract fit statistics}
 \usage{
 extract_fit(..., details = FALSE)
 }
@@ -13,5 +13,5 @@ extract_fit(..., details = FALSE)
 
 }
 \description{
-Title
+Extract fit statistics
 }

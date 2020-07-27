@@ -2,7 +2,7 @@
 % Please edit documentation in R/specify_lavaan_syntax.R
 \name{long_minvariance_syntax}
 \alias{long_minvariance_syntax}
-\title{Title}
+\title{Specify longitudinal measurement invariance models}
 \usage{
 long_minvariance_syntax(
   n_items,
@@ -16,11 +16,11 @@ long_minvariance_syntax(
 )
 }
 \arguments{
-\item{model}{}
+\item{item_str}{}
 }
 \value{
 
 }
 \description{
-Title
+Specify longitudinal measurement invariance models
 }

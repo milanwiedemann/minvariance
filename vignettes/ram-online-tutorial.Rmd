@@ -1,0 +1,171 @@
+---
+title: "Replicating Online Tutorial"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{online-tutorial}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
+---
+
+- [Tutorial Link (by Nilam Ram)](https://quantdev.ssri.psu.edu/tutorials/intro-basics-longitudinal-measurement-invariance)
+
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(minvariance)
+library(tidyverse)
+library(lavaan)
+library(semPlot)
+```
+
+## Load data
+
+```{r}
+
+filepath <- "https://quantdev.ssri.psu.edu/sites/qdev/files/WISC_MIexample.csv"
+data_raw2 <- read_csv(file = url(filepath))
+
+data2 <- data_raw2
+
+names(data2) <- c("id", 
+                  "x_t1_i1", "x_t1_i2", "x_t1_i3", "x_t1_i4", 
+                  "x_t2_i1", "x_t2_i2", "x_t2_i3", "x_t2_i4")
+
+```
+
+## Remove correlated uniqueness
+
+```{r}
+
+configural <- long_minvariance_syntax(n_items = 4, 
+                                      n_timepoints = 2, 
+                                      model = "configural", 
+                                      remove = list(unique_covar = T))
+
+fit_configural <- cfa(configural,
+                      data = data2)
+
+summary(fit_configural, fit.measures = TRUE)
+
+```
+
+```{r fig.height=5, fig.width=5, dpi=100}
+
+semPaths(fit_configural, 
+         what="path",
+         whatLabels = "name",
+         sizeInt = 4, sizeMan = 5, sizeLat = 6)
+
+```
+
+## Includeing correlated uniqueness
+
+```{r}
+
+configural_unique <- long_minvariance_syntax(n_items = 4, 
+                                             n_timepoints = 2, 
+                                             model = "configural")
+
+fit_configural_unique <- cfa(configural_unique,
+                             data = data2)
+
+summary(fit_configural_unique, 
+        fit.measures = TRUE)
+
+```
+
+```{r fig.height=5, fig.width=5, dpi=100}
+
+semPaths(fit_configural_unique, 
+         what="path",
+         whatLabels = "name",
+         sizeInt = 4, sizeMan = 5, sizeLat = 6)
+
+```
+
+## Fit statistics
+
+```{r}
+
+long_minvariance(data = data2, 
+                 n_items = 4, 
+                 n_timepoints = 2, 
+                 remove = list(unique_covar = T), 
+                 return = "fit_statistics") %>% 
+  knitr::kable(digits = 3)
+
+```
+
+## Model tests
+
+```{r}
+
+long_minvariance(data = data2, 
+                 n_items = 4,
+                 n_timepoints = 2, 
+                 remove = list(unique_covar = T), 
+                 return = "model_tests") %>% 
+  knitr::kable(digits = 3)
+
+```
+
+
+## lavaan syntax
+
+
+```{r}
+
+lminvar_syntax <- long_minvariance(data = data2, 
+                                   n_items = 4,
+                                   n_timepoints = 2, 
+                                   remove = list(unique_covar = T), 
+                                   return = "lavaan_syntax") 
+
+```
+
+### Configural
+
+```{r}
+
+lminvar_syntax$configural %>% 
+  cat()
+
+```
+
+
+### Configural
+
+```{r}
+
+lminvar_syntax$weak %>% 
+  cat()
+
+```
+
+
+### Strong
+
+```{r}
+
+lminvar_syntax$strong %>% 
+  cat()
+
+```
+
+
+### Strict
+
+```{r}
+
+lminvar_syntax$strict %>% 
+  cat()
+
+```

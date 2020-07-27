@@ -321,19 +321,20 @@ tidy_lavaan_str <- function(syntax_heading, lavaan_str) {
 }
 
 
-# Specify longitudinal measurement invariance models ----
-#' Title
+
+#' Specify longitudinal measurement invariance models
 #'
 #' @param n_items
-#' @param measure_name
 #' @param n_timepoints
 #' @param add
+#' @param remove
 #' @param model
+#' @param measure_name
+#' @param time_str
+#' @param item_str
 #'
 #' @return
 #' @export
-#'
-#' @examples
 long_minvariance_syntax <- function(n_items, n_timepoints, add = NULL, remove = NULL, model = c("configural", "weak", "strong", "strict"), measure_name = "x", time_str = "_t", item_str = "_i") {
 
   model <- match.arg(model)

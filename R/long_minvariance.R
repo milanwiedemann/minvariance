@@ -1,24 +1,28 @@
-#' Title
+
+#' Test longitudinal measurement invariance
 #'
-#' @param data
-#' @param n_timepoints
-#' @param n_items
-#' @param measure_name
-#' @param details
-#' @param return
+#' @param data Data in wide format (one row for each participant, one column for each item at each time point)
+#' @param n_timepoints Number of time points
+#' @param n_items Number of items
+#' @param add lavaan syntax to add to the model
+#' @param remove List, remove specific parts of the automatically generated model
+#' @param measure_name String, name of the measure
+#' @param time_str String, prefix of the point specifier
+#' @param item_str String, prefix of the item specifier
+#' @param details Return details of selected output selected in return argument
+#' @param return What should be returned ("fit_statistics", "model_tests", "lavaan_objects", "lavaan_syntax")
 #'
 #' @return
 #' @export
 #'
-#' @examples
-long_minvariance <- function(data, n_timepoints, n_items, add = NULL, remove = NULL, measure_name = "x", details = FALSE, return = c("fit_statistics", "model_tests", "lavaan_objects", "lavaan_syntax")) {
+long_minvariance <- function(data, n_timepoints, n_items, add = NULL, remove = NULL, measure_name = "x", time_str = "_t", item_str = "_i", details = FALSE, return = c("fit_statistics", "model_tests", "lavaan_objects", "lavaan_syntax")) {
 
   return <- match.arg(return)
 
-  configural_syntax <- suppressMessages(long_minvariance_syntax(measure_name = measure_name, n_timepoints = n_timepoints, n_items = n_items, add = add, remove = remove, model = "configural"))
-  weak_syntax <- suppressMessages(long_minvariance_syntax(measure_name = measure_name, n_timepoints = n_timepoints, n_items = n_items, add = add, remove = remove, model = "weak"))
-  strong_syntax <- suppressMessages(long_minvariance_syntax(measure_name = measure_name, n_timepoints = n_timepoints, n_items = n_items, add = add, remove = remove, model = "strong"))
-  strict_syntax <- suppressMessages(long_minvariance_syntax(measure_name = measure_name, n_timepoints = n_timepoints, n_items = n_items, add = add, remove = remove, model = "strict"))
+  configural_syntax <- suppressMessages(long_minvariance_syntax(measure_name = measure_name, time_str = time_str, item_str = item_str, n_timepoints = n_timepoints, n_items = n_items, add = add, remove = remove, model = "configural"))
+  weak_syntax <- suppressMessages(long_minvariance_syntax(measure_name = measure_name, time_str = time_str, item_str = item_str, n_timepoints = n_timepoints, n_items = n_items, add = add, remove = remove, model = "weak"))
+  strong_syntax <- suppressMessages(long_minvariance_syntax(measure_name = measure_name, time_str = time_str, item_str = item_str, n_timepoints = n_timepoints, n_items = n_items, add = add, remove = remove, model = "strong"))
+  strict_syntax <- suppressMessages(long_minvariance_syntax(measure_name = measure_name, time_str = time_str, item_str = item_str, n_timepoints = n_timepoints, n_items = n_items, add = add, remove = remove, model = "strict"))
 
   configural <- cfa(model = configural_syntax, data = data, mimic = "mplus")
   weak <- cfa(model = weak_syntax, data = data, mimic = "mplus")
