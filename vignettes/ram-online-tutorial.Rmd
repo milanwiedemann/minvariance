@@ -141,7 +141,7 @@ lminvar_syntax$configural %>%
 ```
 
 
-### Configural
+### Weak
 
 ```{r}
 
