@@ -46,3 +46,8 @@ R functions to test for longitudinal factorial/measurement invariance
   - [“A Tutorial in Longitudinal Measurement Invariance Using Lavaan” by
     Robin Curtis, Sean Mackinnon, Roisin
     O’Connor](https://psyarxiv.com/tkzrb/)
+  - [measEq.syntax
+    {semTools}](https://www.rdocumentation.org/packages/semTools/versions/0.5-2/topics/measEq.syntax)
+  - [On dimensionality, measurement invariance and suitabilityof sum
+    scores for the PHQ-9 and the GAD-7](https://osf.io/arufy/) with
+    Mplus Code using mplusautomation
