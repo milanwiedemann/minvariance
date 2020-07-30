@@ -41,3 +41,8 @@ R functions to test for longitudinal factorial/measurement invariance
   - [Grimm (2017) - lavaan Code for Chapter 14 - Modeling Change with
     Latent Variables Measured by Continuous Indicators by Julie
     Wood](https://quantdev.ssri.psu.edu/tutorials/growth-modeling-chapter-14-modeling-change-latent-variables-measured-continuous-indicators)
+  - [MIE - Measurement invariance explorer (R package) by Maksim
+    Rudnev](https://github.com/MaksimRudnev/MIE.package)
+  - [“A Tutorial in Longitudinal Measurement Invariance Using Lavaan” by
+    Robin Curtis, Sean Mackinnon, Roisin
+    O’Connor](https://psyarxiv.com/tkzrb/)
