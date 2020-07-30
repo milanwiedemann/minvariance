@@ -51,3 +51,5 @@ R functions to test for longitudinal factorial/measurement invariance
   - [On dimensionality, measurement invariance and suitabilityof sum
     scores for the PHQ-9 and the GAD-7](https://osf.io/arufy/) with
     Mplus Code using mplusautomation
+  - [lavaan
+    group](https://groups.google.com/forum/#!topic/lavaan/nfdatPgLLhc)
