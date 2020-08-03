@@ -13,9 +13,22 @@
 #'
 #' @return
 #' @export
-long_minvariance_syntax <- function(n_items, n_timepoints, add = NULL, remove = NULL, model = c("configural", "weak", "strong", "strict"), measure_name = "x", time_str = "_t", item_str = "_i") {
+long_minvariance_syntax <- function(var_list, add = NULL, remove = NULL, model = c("configural", "weak", "strong", "strict"), measure_name = "x", time_str = "_t", item_str = "_i") {
 
   model <- match.arg(model)
+
+  # Test if equal, if not error
+  if( length((unique(lengths(var_list))) == 1L) == FALSE) {
+    stop("Same number of items need to be specified at each time point", call. = FALSE)
+  }
+
+  # Set time points and number of measures
+  n_timepoints <- length(var_list)
+
+  n_items <- unique(lengths(var_list))
+
+
+
 
   if (is.null(remove$unique_covar) == TRUE) {
     remove$unique_covar <- FALSE
@@ -115,3 +128,7 @@ long_minvariance_syntax <- function(n_items, n_timepoints, add = NULL, remove = 
                                       collapse = "")
   return(lavaan_str_return)
 }
+
+
+
+
