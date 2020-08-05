@@ -2,7 +2,7 @@
 title: "Replicating Online Tutorial"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{online-tutorial}
+  %\VignetteIndexEntry{Replicating Online Tutorial}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
@@ -118,7 +118,7 @@ minvariance(data = df,
 
 ```{r}
 
-lminvar_syntax <- minvariance(data = data, 
+lminvar_syntax <- minvariance(data = df, 
                               var_list = list(t1 = c("info1", "comp1", "simi1", "voca1"),
                                               t6 = c("info6", "comp6", "simi6", "voca6")),
                               remove = list(unique_covar = T), 

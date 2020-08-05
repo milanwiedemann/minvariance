@@ -2,7 +2,7 @@
 title: "Replicating Grimm et al (2017) Chapter 14"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{grimm-2017-ch14}
+  %\VignetteIndexEntry{Replicating Grimm et al (2017) Chapter 14}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 

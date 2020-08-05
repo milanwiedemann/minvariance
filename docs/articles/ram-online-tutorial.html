@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">minvariance</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9002</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1</span>
       </span>
     </div>
 
@@ -90,12 +90,12 @@
 </ul>
 <div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">minvariance</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tidyverse</span>)
-<span class="co">#&gt; ── Attaching packages ─────────────────────────────────────────────────────────────────────────────── tidyverse 1.3.0 ──</span>
+<span class="co">#&gt; ── Attaching packages ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse 1.3.0 ──</span>
 <span class="co">#&gt; ✓ ggplot2 3.3.2          ✓ purrr   0.3.4     </span>
 <span class="co">#&gt; ✓ tibble  3.0.3.9000     ✓ dplyr   1.0.0     </span>
 <span class="co">#&gt; ✓ tidyr   1.1.0          ✓ stringr 1.4.0     </span>
 <span class="co">#&gt; ✓ readr   1.3.1          ✓ forcats 0.5.0</span>
-<span class="co">#&gt; ── Conflicts ────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──</span>
+<span class="co">#&gt; ── Conflicts ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──</span>
 <span class="co">#&gt; x dplyr::filter() masks stats::filter()</span>
 <span class="co">#&gt; x dplyr::lag()    masks stats::lag()</span>
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">lavaan</span>)
@@ -111,7 +111,7 @@
 <a href="#load-data" class="anchor"></a>Load data</h2>
 <div class="sourceCode" id="cb2"><html><body><pre class="r">
 <span class="no">filepath</span> <span class="kw">&lt;-</span> <span class="st">"https://quantdev.ssri.psu.edu/sites/qdev/files/WISC_MIexample.csv"</span>
-<span class="no">data_raw2</span> <span class="kw">&lt;-</span> <span class="fu">read_csv</span>(<span class="kw">file</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/connections.html">url</a></span>(<span class="no">filepath</span>))
+<span class="no">df</span> <span class="kw">&lt;-</span> <span class="fu">read_csv</span>(<span class="kw">file</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/connections.html">url</a></span>(<span class="no">filepath</span>))
 <span class="co">#&gt; Parsed with column specification:</span>
 <span class="co">#&gt; cols(</span>
 <span class="co">#&gt;   id = col_double(),</span>
@@ -123,26 +123,21 @@
 <span class="co">#&gt;   comp6 = col_double(),</span>
 <span class="co">#&gt;   simi6 = col_double(),</span>
 <span class="co">#&gt;   voca6 = col_double()</span>
-<span class="co">#&gt; )</span>
-
-<span class="no">data2</span> <span class="kw">&lt;-</span> <span class="no">data_raw2</span>
-
-<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">data2</span>) <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"id"</span>,
-                  <span class="st">"x_t1_i1"</span>, <span class="st">"x_t1_i2"</span>, <span class="st">"x_t1_i3"</span>, <span class="st">"x_t1_i4"</span>,
-                  <span class="st">"x_t2_i1"</span>, <span class="st">"x_t2_i2"</span>, <span class="st">"x_t2_i3"</span>, <span class="st">"x_t2_i4"</span>)</pre></body></html></div>
+<span class="co">#&gt; )</span></pre></body></html></div>
 </div>
 <div id="remove-correlated-uniqueness" class="section level2">
 <h2 class="hasAnchor">
 <a href="#remove-correlated-uniqueness" class="anchor"></a>Remove correlated uniqueness</h2>
-<div class="sourceCode" id="cb3"><html><body><pre class="r">
-<span class="no">configural</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/long_minvariance_syntax.html">long_minvariance_syntax</a></span>(<span class="kw">n_items</span> <span class="kw">=</span> <span class="fl">4</span>,
-                                      <span class="kw">n_timepoints</span> <span class="kw">=</span> <span class="fl">2</span>,
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="co"># Correlated uniqueness can be removed using the "remove" argument</span>
+<span class="no">configural</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/long_minvariance_syntax.html">long_minvariance_syntax</a></span>(<span class="kw">var_list</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">t1</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"info1"</span>, <span class="st">"comp1"</span>, <span class="st">"simi1"</span>, <span class="st">"voca1"</span>),
+                                                      <span class="kw">t6</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"info6"</span>, <span class="st">"comp6"</span>, <span class="st">"simi6"</span>, <span class="st">"voca6"</span>)),
                                       <span class="kw">model</span> <span class="kw">=</span> <span class="st">"configural"</span>,
-                                      <span class="kw">remove</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">unique_covar</span> <span class="kw">=</span> <span class="no">T</span>))
+                                      <span class="kw">remove</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">unique_covar</span> <span class="kw">=</span> <span class="fl">TRUE</span>))
 <span class="co">#&gt; Configural Invariance Model (Pattern Invariance)</span>
 
 <span class="no">fit_configural</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/lavaan/man/cfa.html">cfa</a></span>(<span class="no">configural</span>,
-                      <span class="kw">data</span> <span class="kw">=</span> <span class="no">data2</span>)
+                      <span class="kw">data</span> <span class="kw">=</span> <span class="no">df</span>)
+
 
 <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="no">fit_configural</span>, <span class="kw">fit.measures</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
 <span class="co">#&gt; lavaan 0.6-6 ended normally after 75 iterations</span>
@@ -200,15 +195,15 @@
 <span class="co">#&gt; Latent Variables:</span>
 <span class="co">#&gt;                    Estimate  Std.Err  z-value  P(&gt;|z|)</span>
 <span class="co">#&gt;   eta1 =~                                             </span>
-<span class="co">#&gt;     x_t1_i1 (lmb1)    4.451    0.396   11.244    0.000</span>
-<span class="co">#&gt;     x_t1_i2           6.850    0.637   10.750    0.000</span>
-<span class="co">#&gt;     x_t1_i3           4.590    0.515    8.918    0.000</span>
-<span class="co">#&gt;     x_t1_i4           5.039    0.393   12.809    0.000</span>
+<span class="co">#&gt;     info1   (lmb1)    4.451    0.396   11.244    0.000</span>
+<span class="co">#&gt;     comp1             6.850    0.637   10.750    0.000</span>
+<span class="co">#&gt;     simi1             4.590    0.515    8.918    0.000</span>
+<span class="co">#&gt;     voca1             5.039    0.393   12.809    0.000</span>
 <span class="co">#&gt;   eta2 =~                                             </span>
-<span class="co">#&gt;     x_t2_i1 (lmb1)    4.451    0.396   11.244    0.000</span>
-<span class="co">#&gt;     x_t2_i2           4.006    0.485    8.261    0.000</span>
-<span class="co">#&gt;     x_t2_i3           4.551    0.546    8.342    0.000</span>
-<span class="co">#&gt;     x_t2_i4           4.102    0.448    9.150    0.000</span>
+<span class="co">#&gt;     info6   (lmb1)    4.451    0.396   11.244    0.000</span>
+<span class="co">#&gt;     comp6             4.006    0.485    8.261    0.000</span>
+<span class="co">#&gt;     simi6             4.551    0.546    8.342    0.000</span>
+<span class="co">#&gt;     voca6             4.102    0.448    9.150    0.000</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Covariances:</span>
 <span class="co">#&gt;                    Estimate  Std.Err  z-value  P(&gt;|z|)</span>
@@ -219,27 +214,27 @@
 <span class="co">#&gt;                    Estimate  Std.Err  z-value  P(&gt;|z|)</span>
 <span class="co">#&gt;     eta1              0.000                           </span>
 <span class="co">#&gt;     eta2              6.455    0.601   10.743    0.000</span>
-<span class="co">#&gt;    .x_t1_i1 (tau1)   19.776    0.427   46.273    0.000</span>
-<span class="co">#&gt;    .x_t1_i2          21.797    0.680   32.036    0.000</span>
-<span class="co">#&gt;    .x_t1_i3          14.903    0.528   28.223    0.000</span>
-<span class="co">#&gt;    .x_t1_i4          20.396    0.439   46.416    0.000</span>
-<span class="co">#&gt;    .x_t2_i1 (tau1)   19.776    0.427   46.273    0.000</span>
-<span class="co">#&gt;    .x_t2_i2          19.317    2.281    8.467    0.000</span>
-<span class="co">#&gt;    .x_t2_i3          11.922    2.538    4.697    0.000</span>
-<span class="co">#&gt;    .x_t2_i4          17.970    1.815    9.903    0.000</span>
+<span class="co">#&gt;    .info1   (tau1)   19.776    0.427   46.273    0.000</span>
+<span class="co">#&gt;    .comp1            21.797    0.680   32.036    0.000</span>
+<span class="co">#&gt;    .simi1            14.903    0.528   28.223    0.000</span>
+<span class="co">#&gt;    .voca1            20.396    0.439   46.416    0.000</span>
+<span class="co">#&gt;    .info6   (tau1)   19.776    0.427   46.273    0.000</span>
+<span class="co">#&gt;    .comp6            19.317    2.281    8.467    0.000</span>
+<span class="co">#&gt;    .simi6            11.922    2.538    4.697    0.000</span>
+<span class="co">#&gt;    .voca6            17.970    1.815    9.903    0.000</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Variances:</span>
 <span class="co">#&gt;                    Estimate  Std.Err  z-value  P(&gt;|z|)</span>
 <span class="co">#&gt;     eta1              1.000                           </span>
 <span class="co">#&gt;     eta2              5.834    1.159    5.035    0.000</span>
-<span class="co">#&gt;    .x_t1_i1          17.448    2.186    7.981    0.000</span>
-<span class="co">#&gt;    .x_t1_i2          47.511    5.748    8.266    0.000</span>
-<span class="co">#&gt;    .x_t1_i3          35.810    3.969    9.022    0.000</span>
-<span class="co">#&gt;    .x_t1_i4          13.999    2.085    6.712    0.000</span>
-<span class="co">#&gt;    .x_t2_i1          47.096    6.305    7.470    0.000</span>
-<span class="co">#&gt;    .x_t2_i2          73.850    8.395    8.797    0.000</span>
-<span class="co">#&gt;    .x_t2_i3          88.920   10.222    8.699    0.000</span>
-<span class="co">#&gt;    .x_t2_i4          23.267    4.076    5.709    0.000</span></pre></body></html></div>
+<span class="co">#&gt;    .info1            17.448    2.186    7.981    0.000</span>
+<span class="co">#&gt;    .comp1            47.511    5.748    8.266    0.000</span>
+<span class="co">#&gt;    .simi1            35.810    3.969    9.022    0.000</span>
+<span class="co">#&gt;    .voca1            13.999    2.085    6.712    0.000</span>
+<span class="co">#&gt;    .info6            47.096    6.305    7.470    0.000</span>
+<span class="co">#&gt;    .comp6            73.850    8.395    8.797    0.000</span>
+<span class="co">#&gt;    .simi6            88.920   10.222    8.699    0.000</span>
+<span class="co">#&gt;    .voca6            23.267    4.076    5.709    0.000</span></pre></body></html></div>
 <div class="sourceCode" id="cb4"><html><body><pre class="r">
 <span class="fu"><a href="https://rdrr.io/pkg/semPlot/man/semPaths.html">semPaths</a></span>(<span class="no">fit_configural</span>,
          <span class="kw">what</span><span class="kw">=</span><span class="st">"path"</span>,
@@ -251,13 +246,13 @@
 <h2 class="hasAnchor">
 <a href="#includeing-correlated-uniqueness" class="anchor"></a>Includeing correlated uniqueness</h2>
 <div class="sourceCode" id="cb5"><html><body><pre class="r">
-<span class="no">configural_unique</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/long_minvariance_syntax.html">long_minvariance_syntax</a></span>(<span class="kw">n_items</span> <span class="kw">=</span> <span class="fl">4</span>,
-                                             <span class="kw">n_timepoints</span> <span class="kw">=</span> <span class="fl">2</span>,
+<span class="no">configural_unique</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/long_minvariance_syntax.html">long_minvariance_syntax</a></span>(<span class="kw">var_list</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">t1</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"info1"</span>, <span class="st">"comp1"</span>, <span class="st">"simi1"</span>, <span class="st">"voca1"</span>),
+                                                             <span class="kw">t6</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"info6"</span>, <span class="st">"comp6"</span>, <span class="st">"simi6"</span>, <span class="st">"voca6"</span>)),
                                              <span class="kw">model</span> <span class="kw">=</span> <span class="st">"configural"</span>)
 <span class="co">#&gt; Configural Invariance Model (Pattern Invariance)</span>
 
 <span class="no">fit_configural_unique</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/lavaan/man/cfa.html">cfa</a></span>(<span class="no">configural_unique</span>,
-                             <span class="kw">data</span> <span class="kw">=</span> <span class="no">data2</span>)
+                             <span class="kw">data</span> <span class="kw">=</span> <span class="no">df</span>)
 
 <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="no">fit_configural_unique</span>,
         <span class="kw">fit.measures</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
@@ -316,54 +311,54 @@
 <span class="co">#&gt; Latent Variables:</span>
 <span class="co">#&gt;                    Estimate  Std.Err  z-value  P(&gt;|z|)</span>
 <span class="co">#&gt;   eta1 =~                                             </span>
-<span class="co">#&gt;     x_t1_i1 (lmb1)    4.470    0.397   11.253    0.000</span>
-<span class="co">#&gt;     x_t1_i2           6.868    0.639   10.747    0.000</span>
-<span class="co">#&gt;     x_t1_i3           4.636    0.516    8.990    0.000</span>
-<span class="co">#&gt;     x_t1_i4           5.000    0.396   12.618    0.000</span>
+<span class="co">#&gt;     info1   (lmb1)    4.470    0.397   11.253    0.000</span>
+<span class="co">#&gt;     comp1             6.868    0.639   10.747    0.000</span>
+<span class="co">#&gt;     simi1             4.636    0.516    8.990    0.000</span>
+<span class="co">#&gt;     voca1             5.000    0.396   12.618    0.000</span>
 <span class="co">#&gt;   eta2 =~                                             </span>
-<span class="co">#&gt;     x_t2_i1 (lmb1)    4.470    0.397   11.253    0.000</span>
-<span class="co">#&gt;     x_t2_i2           4.026    0.483    8.334    0.000</span>
-<span class="co">#&gt;     x_t2_i3           4.564    0.543    8.406    0.000</span>
-<span class="co">#&gt;     x_t2_i4           4.090    0.442    9.244    0.000</span>
+<span class="co">#&gt;     info6   (lmb1)    4.470    0.397   11.253    0.000</span>
+<span class="co">#&gt;     comp6             4.026    0.483    8.334    0.000</span>
+<span class="co">#&gt;     simi6             4.564    0.543    8.406    0.000</span>
+<span class="co">#&gt;     voca6             4.090    0.442    9.244    0.000</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Covariances:</span>
 <span class="co">#&gt;                    Estimate  Std.Err  z-value  P(&gt;|z|)</span>
 <span class="co">#&gt;   eta1 ~~                                             </span>
 <span class="co">#&gt;     eta2              1.817    0.208    8.715    0.000</span>
-<span class="co">#&gt;  .x_t1_i1 ~~                                          </span>
-<span class="co">#&gt;    .x_t2_i1           0.979    2.568    0.381    0.703</span>
-<span class="co">#&gt;  .x_t1_i2 ~~                                          </span>
-<span class="co">#&gt;    .x_t2_i2          -0.222    4.821   -0.046    0.963</span>
-<span class="co">#&gt;  .x_t1_i3 ~~                                          </span>
-<span class="co">#&gt;    .x_t2_i3          -1.445    4.436   -0.326    0.745</span>
-<span class="co">#&gt;  .x_t1_i4 ~~                                          </span>
-<span class="co">#&gt;    .x_t2_i4           1.741    2.025    0.860    0.390</span>
+<span class="co">#&gt;  .info1 ~~                                            </span>
+<span class="co">#&gt;    .info6             0.979    2.568    0.381    0.703</span>
+<span class="co">#&gt;  .comp1 ~~                                            </span>
+<span class="co">#&gt;    .comp6            -0.222    4.821   -0.046    0.963</span>
+<span class="co">#&gt;  .simi1 ~~                                            </span>
+<span class="co">#&gt;    .simi6            -1.445    4.436   -0.326    0.745</span>
+<span class="co">#&gt;  .voca1 ~~                                            </span>
+<span class="co">#&gt;    .voca6             1.741    2.025    0.860    0.390</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Intercepts:</span>
 <span class="co">#&gt;                    Estimate  Std.Err  z-value  P(&gt;|z|)</span>
 <span class="co">#&gt;     eta1              0.000                           </span>
 <span class="co">#&gt;     eta2              6.429    0.598   10.757    0.000</span>
-<span class="co">#&gt;    .x_t1_i1 (tau1)   19.776    0.427   46.267    0.000</span>
-<span class="co">#&gt;    .x_t1_i2          21.797    0.680   32.039    0.000</span>
-<span class="co">#&gt;    .x_t1_i3          14.903    0.528   28.207    0.000</span>
-<span class="co">#&gt;    .x_t1_i4          20.396    0.439   46.428    0.000</span>
-<span class="co">#&gt;    .x_t2_i1 (tau1)   19.776    0.427   46.267    0.000</span>
-<span class="co">#&gt;    .x_t2_i2          19.294    2.282    8.453    0.000</span>
-<span class="co">#&gt;    .x_t2_i3          11.957    2.540    4.708    0.000</span>
-<span class="co">#&gt;    .x_t2_i4          18.151    1.821    9.970    0.000</span>
+<span class="co">#&gt;    .info1   (tau1)   19.776    0.427   46.267    0.000</span>
+<span class="co">#&gt;    .comp1            21.797    0.680   32.039    0.000</span>
+<span class="co">#&gt;    .simi1            14.903    0.528   28.207    0.000</span>
+<span class="co">#&gt;    .voca1            20.396    0.439   46.428    0.000</span>
+<span class="co">#&gt;    .info6   (tau1)   19.776    0.427   46.267    0.000</span>
+<span class="co">#&gt;    .comp6            19.294    2.282    8.453    0.000</span>
+<span class="co">#&gt;    .simi6            11.957    2.540    4.708    0.000</span>
+<span class="co">#&gt;    .voca6            18.151    1.821    9.970    0.000</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Variances:</span>
 <span class="co">#&gt;                    Estimate  Std.Err  z-value  P(&gt;|z|)</span>
 <span class="co">#&gt;     eta1              1.000                           </span>
 <span class="co">#&gt;     eta2              5.797    1.139    5.089    0.000</span>
-<span class="co">#&gt;    .x_t1_i1          17.294    2.205    7.845    0.000</span>
-<span class="co">#&gt;    .x_t1_i2          47.245    5.782    8.171    0.000</span>
-<span class="co">#&gt;    .x_t1_i3          35.454    3.964    8.944    0.000</span>
-<span class="co">#&gt;    .x_t1_i4          14.374    2.142    6.710    0.000</span>
-<span class="co">#&gt;    .x_t2_i1          46.958    6.398    7.339    0.000</span>
-<span class="co">#&gt;    .x_t2_i2          73.488    8.419    8.729    0.000</span>
-<span class="co">#&gt;    .x_t2_i3          88.773   10.271    8.643    0.000</span>
-<span class="co">#&gt;    .x_t2_i4          23.859    4.191    5.692    0.000</span></pre></body></html></div>
+<span class="co">#&gt;    .info1            17.294    2.205    7.845    0.000</span>
+<span class="co">#&gt;    .comp1            47.245    5.782    8.171    0.000</span>
+<span class="co">#&gt;    .simi1            35.454    3.964    8.944    0.000</span>
+<span class="co">#&gt;    .voca1            14.374    2.142    6.710    0.000</span>
+<span class="co">#&gt;    .info6            46.958    6.398    7.339    0.000</span>
+<span class="co">#&gt;    .comp6            73.488    8.419    8.729    0.000</span>
+<span class="co">#&gt;    .simi6            88.773   10.271    8.643    0.000</span>
+<span class="co">#&gt;    .voca6            23.859    4.191    5.692    0.000</span></pre></body></html></div>
 <div class="sourceCode" id="cb6"><html><body><pre class="r">
 <span class="fu"><a href="https://rdrr.io/pkg/semPlot/man/semPaths.html">semPaths</a></span>(<span class="no">fit_configural_unique</span>,
          <span class="kw">what</span><span class="kw">=</span><span class="st">"path"</span>,
@@ -375,11 +370,11 @@
 <h2 class="hasAnchor">
 <a href="#fit-statistics" class="anchor"></a>Fit statistics</h2>
 <div class="sourceCode" id="cb7"><html><body><pre class="r">
-<span class="fu"><a href="../reference/long_minvariance.html">long_minvariance</a></span>(<span class="kw">data</span> <span class="kw">=</span> <span class="no">data2</span>,
-                 <span class="kw">n_items</span> <span class="kw">=</span> <span class="fl">4</span>,
-                 <span class="kw">n_timepoints</span> <span class="kw">=</span> <span class="fl">2</span>,
-                 <span class="kw">remove</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">unique_covar</span> <span class="kw">=</span> <span class="no">T</span>),
-                 <span class="kw">return</span> <span class="kw">=</span> <span class="st">"fit_statistics"</span>) <span class="kw">%&gt;%</span>
+<span class="fu"><a href="../reference/minvariance.html">minvariance</a></span>(<span class="kw">data</span> <span class="kw">=</span> <span class="no">df</span>,
+            <span class="kw">var_list</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">t1</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"info1"</span>, <span class="st">"comp1"</span>, <span class="st">"simi1"</span>, <span class="st">"voca1"</span>),
+                            <span class="kw">t6</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"info6"</span>, <span class="st">"comp6"</span>, <span class="st">"simi6"</span>, <span class="st">"voca6"</span>)),
+            <span class="kw">remove</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">unique_covar</span> <span class="kw">=</span> <span class="no">T</span>),
+            <span class="kw">return</span> <span class="kw">=</span> <span class="st">"fit_statistics"</span>) <span class="kw">%&gt;%</span>
   <span class="kw pkg">knitr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(<span class="kw">digits</span> <span class="kw">=</span> <span class="fl">3</span>)</pre></body></html></div>
 <table class="table">
 <thead><tr class="header">
@@ -450,11 +445,11 @@
 <h2 class="hasAnchor">
 <a href="#model-tests" class="anchor"></a>Model tests</h2>
 <div class="sourceCode" id="cb8"><html><body><pre class="r">
-<span class="fu"><a href="../reference/long_minvariance.html">long_minvariance</a></span>(<span class="kw">data</span> <span class="kw">=</span> <span class="no">data2</span>,
-                 <span class="kw">n_items</span> <span class="kw">=</span> <span class="fl">4</span>,
-                 <span class="kw">n_timepoints</span> <span class="kw">=</span> <span class="fl">2</span>,
-                 <span class="kw">remove</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">unique_covar</span> <span class="kw">=</span> <span class="no">T</span>),
-                 <span class="kw">return</span> <span class="kw">=</span> <span class="st">"model_tests"</span>) <span class="kw">%&gt;%</span>
+<span class="fu"><a href="../reference/minvariance.html">minvariance</a></span>(<span class="kw">data</span> <span class="kw">=</span> <span class="no">df</span>,
+            <span class="kw">var_list</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">t1</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"info1"</span>, <span class="st">"comp1"</span>, <span class="st">"simi1"</span>, <span class="st">"voca1"</span>),
+                            <span class="kw">t6</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"info6"</span>, <span class="st">"comp6"</span>, <span class="st">"simi6"</span>, <span class="st">"voca6"</span>)),
+            <span class="kw">remove</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">unique_covar</span> <span class="kw">=</span> <span class="no">T</span>),
+            <span class="kw">return</span> <span class="kw">=</span> <span class="st">"model_tests"</span>) <span class="kw">%&gt;%</span>
   <span class="kw pkg">knitr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(<span class="kw">digits</span> <span class="kw">=</span> <span class="fl">3</span>)</pre></body></html></div>
 <table class="table">
 <thead><tr class="header">
@@ -515,11 +510,11 @@
 <h2 class="hasAnchor">
 <a href="#lavaan-syntax" class="anchor"></a>lavaan syntax</h2>
 <div class="sourceCode" id="cb9"><html><body><pre class="r">
-<span class="no">lminvar_syntax</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/long_minvariance.html">long_minvariance</a></span>(<span class="kw">data</span> <span class="kw">=</span> <span class="no">data2</span>,
-                                   <span class="kw">n_items</span> <span class="kw">=</span> <span class="fl">4</span>,
-                                   <span class="kw">n_timepoints</span> <span class="kw">=</span> <span class="fl">2</span>,
-                                   <span class="kw">remove</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">unique_covar</span> <span class="kw">=</span> <span class="no">T</span>),
-                                   <span class="kw">return</span> <span class="kw">=</span> <span class="st">"lavaan_syntax"</span>)</pre></body></html></div>
+<span class="no">lminvar_syntax</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/minvariance.html">minvariance</a></span>(<span class="kw">data</span> <span class="kw">=</span> <span class="no">df</span>,
+                              <span class="kw">var_list</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">t1</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"info1"</span>, <span class="st">"comp1"</span>, <span class="st">"simi1"</span>, <span class="st">"voca1"</span>),
+                                              <span class="kw">t6</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"info6"</span>, <span class="st">"comp6"</span>, <span class="st">"simi6"</span>, <span class="st">"voca6"</span>)),
+                              <span class="kw">remove</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">unique_covar</span> <span class="kw">=</span> <span class="no">T</span>),
+                              <span class="kw">return</span> <span class="kw">=</span> <span class="st">"lavaan_syntax"</span>)</pre></body></html></div>
 <div id="configural" class="section level3">
 <h3 class="hasAnchor">
 <a href="#configural" class="anchor"></a>Configural</h3>
@@ -528,8 +523,8 @@
   <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>()
 <span class="co">#&gt; #### CONFIGURAL INVARIANCE MODEL ####</span>
 <span class="co">#&gt; # Specify Latent Factors ----</span>
-<span class="co">#&gt; eta1 =~ NA * x_t1_i1 + lambda1 * x_t1_i1 + x_t1_i2 + x_t1_i3 + x_t1_i4</span>
-<span class="co">#&gt; eta2 =~ NA * x_t2_i1 + lambda1 * x_t2_i1 + x_t2_i2 + x_t2_i3 + x_t2_i4</span>
+<span class="co">#&gt; eta1 =~ NA * info1 + lambda1 * info1 + comp1 + simi1 + voca1</span>
+<span class="co">#&gt; eta2 =~ NA * info6 + lambda1 * info6 + comp6 + simi6 + voca6</span>
 <span class="co">#&gt; # Specify Latent Variable Means ----</span>
 <span class="co">#&gt; eta1 ~ 0 * 1 </span>
 <span class="co">#&gt; eta2 ~ 1 </span>
@@ -539,23 +534,23 @@
 <span class="co">#&gt; # Specify Latent Variable Covariances ----</span>
 <span class="co">#&gt; eta1 ~~ eta2</span>
 <span class="co">#&gt; # Specify Observed Variable Intercepts ----</span>
-<span class="co">#&gt; x_t1_i1 ~ tau1 * 1 </span>
-<span class="co">#&gt; x_t1_i2 ~ 1 </span>
-<span class="co">#&gt; x_t1_i3 ~ 1 </span>
-<span class="co">#&gt; x_t1_i4 ~ 1 </span>
-<span class="co">#&gt; x_t2_i1 ~ tau1 * 1 </span>
-<span class="co">#&gt; x_t2_i2 ~ 1 </span>
-<span class="co">#&gt; x_t2_i3 ~ 1 </span>
-<span class="co">#&gt; x_t2_i4 ~ 1 </span>
+<span class="co">#&gt; info1 ~ tau1 * 1 </span>
+<span class="co">#&gt; comp1 ~ 1 </span>
+<span class="co">#&gt; simi1 ~ 1 </span>
+<span class="co">#&gt; voca1 ~ 1 </span>
+<span class="co">#&gt; info6 ~ tau1 * 1 </span>
+<span class="co">#&gt; comp6 ~ 1 </span>
+<span class="co">#&gt; simi6 ~ 1 </span>
+<span class="co">#&gt; voca6 ~ 1 </span>
 <span class="co">#&gt; # Specify Unique Variances ----</span>
-<span class="co">#&gt; x_t1_i1 ~~ x_t1_i1 </span>
-<span class="co">#&gt; x_t1_i2 ~~ x_t1_i2 </span>
-<span class="co">#&gt; x_t1_i3 ~~ x_t1_i3 </span>
-<span class="co">#&gt; x_t1_i4 ~~ x_t1_i4 </span>
-<span class="co">#&gt; x_t2_i1 ~~ x_t2_i1 </span>
-<span class="co">#&gt; x_t2_i2 ~~ x_t2_i2 </span>
-<span class="co">#&gt; x_t2_i3 ~~ x_t2_i3 </span>
-<span class="co">#&gt; x_t2_i4 ~~ x_t2_i4 </span>
+<span class="co">#&gt; info1 ~~ info1 </span>
+<span class="co">#&gt; comp1 ~~ comp1 </span>
+<span class="co">#&gt; simi1 ~~ simi1 </span>
+<span class="co">#&gt; voca1 ~~ voca1 </span>
+<span class="co">#&gt; info6 ~~ info6 </span>
+<span class="co">#&gt; comp6 ~~ comp6 </span>
+<span class="co">#&gt; simi6 ~~ simi6 </span>
+<span class="co">#&gt; voca6 ~~ voca6 </span>
 <span class="co">#&gt; # Specify Unique Covariances ----</span>
 <span class="co">#&gt; # REMOVED</span></pre></body></html></div>
 </div>
@@ -567,8 +562,8 @@
   <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>()
 <span class="co">#&gt; #### WEAK INVARIANCE MODEL ####</span>
 <span class="co">#&gt; # Specify Latent Factors ----</span>
-<span class="co">#&gt; eta1 =~ NA * x_t1_i1 + lambda1 * x_t1_i1 + lambda2 * x_t1_i2 + lambda3 * x_t1_i3 + lambda4 * x_t1_i4</span>
-<span class="co">#&gt; eta2 =~ NA * x_t2_i1 + lambda1 * x_t2_i1 + lambda2 * x_t2_i2 + lambda3 * x_t2_i3 + lambda4 * x_t2_i4</span>
+<span class="co">#&gt; eta1 =~ NA * info1 + lambda1 * info1 + lambda2 * comp1 + lambda3 * simi1 + lambda4 * voca1</span>
+<span class="co">#&gt; eta2 =~ NA * info6 + lambda1 * info6 + lambda2 * comp6 + lambda3 * simi6 + lambda4 * voca6</span>
 <span class="co">#&gt; # Specify Latent Variable Means ----</span>
 <span class="co">#&gt; eta1 ~ 0 * 1 </span>
 <span class="co">#&gt; eta2 ~ 1 </span>
@@ -578,23 +573,23 @@
 <span class="co">#&gt; # Specify Latent Variable Covariances ----</span>
 <span class="co">#&gt; eta1 ~~ eta2</span>
 <span class="co">#&gt; # Specify Observed Variable Intercepts ----</span>
-<span class="co">#&gt; x_t1_i1 ~ tau1 * 1 </span>
-<span class="co">#&gt; x_t1_i2 ~ 1 </span>
-<span class="co">#&gt; x_t1_i3 ~ 1 </span>
-<span class="co">#&gt; x_t1_i4 ~ 1 </span>
-<span class="co">#&gt; x_t2_i1 ~ tau1 * 1 </span>
-<span class="co">#&gt; x_t2_i2 ~ 1 </span>
-<span class="co">#&gt; x_t2_i3 ~ 1 </span>
-<span class="co">#&gt; x_t2_i4 ~ 1 </span>
+<span class="co">#&gt; info1 ~ tau1 * 1 </span>
+<span class="co">#&gt; comp1 ~ 1 </span>
+<span class="co">#&gt; simi1 ~ 1 </span>
+<span class="co">#&gt; voca1 ~ 1 </span>
+<span class="co">#&gt; info6 ~ tau1 * 1 </span>
+<span class="co">#&gt; comp6 ~ 1 </span>
+<span class="co">#&gt; simi6 ~ 1 </span>
+<span class="co">#&gt; voca6 ~ 1 </span>
 <span class="co">#&gt; # Specify Unique Variances ----</span>
-<span class="co">#&gt; x_t1_i1 ~~ x_t1_i1 </span>
-<span class="co">#&gt; x_t1_i2 ~~ x_t1_i2 </span>
-<span class="co">#&gt; x_t1_i3 ~~ x_t1_i3 </span>
-<span class="co">#&gt; x_t1_i4 ~~ x_t1_i4 </span>
-<span class="co">#&gt; x_t2_i1 ~~ x_t2_i1 </span>
-<span class="co">#&gt; x_t2_i2 ~~ x_t2_i2 </span>
-<span class="co">#&gt; x_t2_i3 ~~ x_t2_i3 </span>
-<span class="co">#&gt; x_t2_i4 ~~ x_t2_i4 </span>
+<span class="co">#&gt; info1 ~~ info1 </span>
+<span class="co">#&gt; comp1 ~~ comp1 </span>
+<span class="co">#&gt; simi1 ~~ simi1 </span>
+<span class="co">#&gt; voca1 ~~ voca1 </span>
+<span class="co">#&gt; info6 ~~ info6 </span>
+<span class="co">#&gt; comp6 ~~ comp6 </span>
+<span class="co">#&gt; simi6 ~~ simi6 </span>
+<span class="co">#&gt; voca6 ~~ voca6 </span>
 <span class="co">#&gt; # Specify Unique Covariances ----</span>
 <span class="co">#&gt; # REMOVED</span></pre></body></html></div>
 </div>
@@ -606,8 +601,8 @@
   <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>()
 <span class="co">#&gt; #### STRONG INVARIANCE MODEL ####</span>
 <span class="co">#&gt; # Specify Latent Factors ----</span>
-<span class="co">#&gt; eta1 =~ NA * x_t1_i1 + lambda1 * x_t1_i1 + lambda2 * x_t1_i2 + lambda3 * x_t1_i3 + lambda4 * x_t1_i4</span>
-<span class="co">#&gt; eta2 =~ NA * x_t2_i1 + lambda1 * x_t2_i1 + lambda2 * x_t2_i2 + lambda3 * x_t2_i3 + lambda4 * x_t2_i4</span>
+<span class="co">#&gt; eta1 =~ NA * info1 + lambda1 * info1 + lambda2 * comp1 + lambda3 * simi1 + lambda4 * voca1</span>
+<span class="co">#&gt; eta2 =~ NA * info6 + lambda1 * info6 + lambda2 * comp6 + lambda3 * simi6 + lambda4 * voca6</span>
 <span class="co">#&gt; # Specify Latent Variable Means ----</span>
 <span class="co">#&gt; eta1 ~ 0 * 1 </span>
 <span class="co">#&gt; eta2 ~ 1 </span>
@@ -617,23 +612,23 @@
 <span class="co">#&gt; # Specify Latent Variable Covariances ----</span>
 <span class="co">#&gt; eta1 ~~ eta2</span>
 <span class="co">#&gt; # Specify Observed Variable Intercepts ----</span>
-<span class="co">#&gt; x_t1_i1 ~ tau1 * 1 </span>
-<span class="co">#&gt; x_t1_i2 ~ tau2 * 1 </span>
-<span class="co">#&gt; x_t1_i3 ~ tau3 * 1 </span>
-<span class="co">#&gt; x_t1_i4 ~ tau4 * 1 </span>
-<span class="co">#&gt; x_t2_i1 ~ tau1 * 1 </span>
-<span class="co">#&gt; x_t2_i2 ~ tau2 * 1 </span>
-<span class="co">#&gt; x_t2_i3 ~ tau3 * 1 </span>
-<span class="co">#&gt; x_t2_i4 ~ tau4 * 1 </span>
+<span class="co">#&gt; info1 ~ tau1 * 1 </span>
+<span class="co">#&gt; comp1 ~ tau2 * 1 </span>
+<span class="co">#&gt; simi1 ~ tau3 * 1 </span>
+<span class="co">#&gt; voca1 ~ tau4 * 1 </span>
+<span class="co">#&gt; info6 ~ tau1 * 1 </span>
+<span class="co">#&gt; comp6 ~ tau2 * 1 </span>
+<span class="co">#&gt; simi6 ~ tau3 * 1 </span>
+<span class="co">#&gt; voca6 ~ tau4 * 1 </span>
 <span class="co">#&gt; # Specify Unique Variances ----</span>
-<span class="co">#&gt; x_t1_i1 ~~ x_t1_i1 </span>
-<span class="co">#&gt; x_t1_i2 ~~ x_t1_i2 </span>
-<span class="co">#&gt; x_t1_i3 ~~ x_t1_i3 </span>
-<span class="co">#&gt; x_t1_i4 ~~ x_t1_i4 </span>
-<span class="co">#&gt; x_t2_i1 ~~ x_t2_i1 </span>
-<span class="co">#&gt; x_t2_i2 ~~ x_t2_i2 </span>
-<span class="co">#&gt; x_t2_i3 ~~ x_t2_i3 </span>
-<span class="co">#&gt; x_t2_i4 ~~ x_t2_i4 </span>
+<span class="co">#&gt; info1 ~~ info1 </span>
+<span class="co">#&gt; comp1 ~~ comp1 </span>
+<span class="co">#&gt; simi1 ~~ simi1 </span>
+<span class="co">#&gt; voca1 ~~ voca1 </span>
+<span class="co">#&gt; info6 ~~ info6 </span>
+<span class="co">#&gt; comp6 ~~ comp6 </span>
+<span class="co">#&gt; simi6 ~~ simi6 </span>
+<span class="co">#&gt; voca6 ~~ voca6 </span>
 <span class="co">#&gt; # Specify Unique Covariances ----</span>
 <span class="co">#&gt; # REMOVED</span></pre></body></html></div>
 </div>
@@ -645,8 +640,8 @@
   <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>()
 <span class="co">#&gt; #### STRICT INVARIANCE MODEL ####</span>
 <span class="co">#&gt; # Specify Latent Factors ----</span>
-<span class="co">#&gt; eta1 =~ NA * x_t1_i1 + lambda1 * x_t1_i1 + lambda2 * x_t1_i2 + lambda3 * x_t1_i3 + lambda4 * x_t1_i4</span>
-<span class="co">#&gt; eta2 =~ NA * x_t2_i1 + lambda1 * x_t2_i1 + lambda2 * x_t2_i2 + lambda3 * x_t2_i3 + lambda4 * x_t2_i4</span>
+<span class="co">#&gt; eta1 =~ NA * info1 + lambda1 * info1 + lambda2 * comp1 + lambda3 * simi1 + lambda4 * voca1</span>
+<span class="co">#&gt; eta2 =~ NA * info6 + lambda1 * info6 + lambda2 * comp6 + lambda3 * simi6 + lambda4 * voca6</span>
 <span class="co">#&gt; # Specify Latent Variable Means ----</span>
 <span class="co">#&gt; eta1 ~ 0 * 1 </span>
 <span class="co">#&gt; eta2 ~ 1 </span>
@@ -656,23 +651,23 @@
 <span class="co">#&gt; # Specify Latent Variable Covariances ----</span>
 <span class="co">#&gt; eta1 ~~ eta2</span>
 <span class="co">#&gt; # Specify Observed Variable Intercepts ----</span>
-<span class="co">#&gt; x_t1_i1 ~ tau1 * 1 </span>
-<span class="co">#&gt; x_t1_i2 ~ tau2 * 1 </span>
-<span class="co">#&gt; x_t1_i3 ~ tau3 * 1 </span>
-<span class="co">#&gt; x_t1_i4 ~ tau4 * 1 </span>
-<span class="co">#&gt; x_t2_i1 ~ tau1 * 1 </span>
-<span class="co">#&gt; x_t2_i2 ~ tau2 * 1 </span>
-<span class="co">#&gt; x_t2_i3 ~ tau3 * 1 </span>
-<span class="co">#&gt; x_t2_i4 ~ tau4 * 1 </span>
+<span class="co">#&gt; info1 ~ tau1 * 1 </span>
+<span class="co">#&gt; comp1 ~ tau2 * 1 </span>
+<span class="co">#&gt; simi1 ~ tau3 * 1 </span>
+<span class="co">#&gt; voca1 ~ tau4 * 1 </span>
+<span class="co">#&gt; info6 ~ tau1 * 1 </span>
+<span class="co">#&gt; comp6 ~ tau2 * 1 </span>
+<span class="co">#&gt; simi6 ~ tau3 * 1 </span>
+<span class="co">#&gt; voca6 ~ tau4 * 1 </span>
 <span class="co">#&gt; # Specify Unique Variances ----</span>
-<span class="co">#&gt; x_t1_i1 ~~ theta1 * x_t1_i1 </span>
-<span class="co">#&gt; x_t1_i2 ~~ theta2 * x_t1_i2 </span>
-<span class="co">#&gt; x_t1_i3 ~~ theta3 * x_t1_i3 </span>
-<span class="co">#&gt; x_t1_i4 ~~ theta4 * x_t1_i4 </span>
-<span class="co">#&gt; x_t2_i1 ~~ theta1 * x_t2_i1 </span>
-<span class="co">#&gt; x_t2_i2 ~~ theta2 * x_t2_i2 </span>
-<span class="co">#&gt; x_t2_i3 ~~ theta3 * x_t2_i3 </span>
-<span class="co">#&gt; x_t2_i4 ~~ theta4 * x_t2_i4 </span>
+<span class="co">#&gt; info1 ~~ theta1 * info1 </span>
+<span class="co">#&gt; comp1 ~~ theta2 * comp1 </span>
+<span class="co">#&gt; simi1 ~~ theta3 * simi1 </span>
+<span class="co">#&gt; voca1 ~~ theta4 * voca1 </span>
+<span class="co">#&gt; info6 ~~ theta1 * info6 </span>
+<span class="co">#&gt; comp6 ~~ theta2 * comp6 </span>
+<span class="co">#&gt; simi6 ~~ theta3 * simi6 </span>
+<span class="co">#&gt; voca6 ~~ theta4 * voca6 </span>
 <span class="co">#&gt; # Specify Unique Covariances ----</span>
 <span class="co">#&gt; # REMOVED</span></pre></body></html></div>
 </div>
