@@ -24,6 +24,99 @@ You can install the released version of `minvariance` from
 devtools::install_github("milanwiedemann/minvariance")
 ```
 
+``` r
+library(tidyverse)
+#> ── Attaching packages ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse 1.3.0 ──
+#> ✓ ggplot2 3.3.2          ✓ purrr   0.3.4     
+#> ✓ tibble  3.0.3.9000     ✓ dplyr   1.0.0     
+#> ✓ tidyr   1.1.0          ✓ stringr 1.4.0     
+#> ✓ readr   1.3.1          ✓ forcats 0.5.0
+#> ── Conflicts ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+#> x dplyr::filter() masks stats::filter()
+#> x dplyr::lag()    masks stats::lag()
+library(minvariance)
+# Specify list of variables 
+timepoints <- list(t1 = c("i1_t1", "i2_t1", "i3_t1"), t2 = c("i1_t2", "i1_t2", "i1_t2"))
+
+# Generate lavaan syntax
+long_minvariance_syntax(var_list = timepoints, model = "configural") %>% 
+  cat()
+#> Configural Invariance Model (Pattern Invariance)
+#> #### CONFIGURAL INVARIANCE MODEL ####
+#> # Specify Latent Factors ----
+#> eta1 =~ NA * i1_t1 + lambda1 * i1_t1 + i2_t1 + i3_t1
+#> eta2 =~ NA * i1_t2 + lambda1 * i1_t2 + i1_t2 + i1_t2
+#> # Specify Latent Variable Means ----
+#> eta1 ~ 0 * 1 
+#> eta2 ~ 1 
+#> # Specify Latent Variable Variances ----
+#> eta1 ~~ 1 * eta1
+#> eta2 ~~ eta2
+#> # Specify Latent Variable Covariances ----
+#> eta1 ~~ eta2
+#> # Specify Observed Variable Intercepts ----
+#> i1_t1 ~ tau1 * 1 
+#> i2_t1 ~ 1 
+#> i3_t1 ~ 1 
+#> i1_t2 ~ tau1 * 1 
+#> i1_t2 ~ 1 
+#> i1_t2 ~ 1 
+#> # Specify Unique Variances ----
+#> i1_t1 ~~ i1_t1 
+#> i2_t1 ~~ i2_t1 
+#> i3_t1 ~~ i3_t1 
+#> i1_t2 ~~ i1_t2 
+#> i1_t2 ~~ i1_t2 
+#> i1_t2 ~~ i1_t2 
+#> # Specify Unique Covariances ----
+#> i1_t1 ~~ i1_t2
+#> i2_t1 ~~ i1_t2
+#> i3_t1 ~~ i1_t2
+```
+
+Here’s another example with different variable names
+
+``` r
+library(tidyverse)
+
+timepoints_abc <- list(t1 = c("a1", "b1", "c1"), t2 = c("a2", "b2", "c2"))
+
+# Generate lavaan syntax
+long_minvariance_syntax(var_list = timepoints_abc, model = "strong") %>% 
+  cat()
+#> Strong Invariance Model (Scalar Invariance, Intercept Invariance)
+#> #### STRONG INVARIANCE MODEL ####
+#> # Specify Latent Factors ----
+#> eta1 =~ NA * a1 + lambda1 * a1 + lambda2 * b1 + lambda3 * c1
+#> eta2 =~ NA * a2 + lambda1 * a2 + lambda2 * b2 + lambda3 * c2
+#> # Specify Latent Variable Means ----
+#> eta1 ~ 0 * 1 
+#> eta2 ~ 1 
+#> # Specify Latent Variable Variances ----
+#> eta1 ~~ 1 * eta1
+#> eta2 ~~ eta2
+#> # Specify Latent Variable Covariances ----
+#> eta1 ~~ eta2
+#> # Specify Observed Variable Intercepts ----
+#> a1 ~ tau1 * 1 
+#> b1 ~ tau2 * 1 
+#> c1 ~ tau3 * 1 
+#> a2 ~ tau1 * 1 
+#> b2 ~ tau2 * 1 
+#> c2 ~ tau3 * 1 
+#> # Specify Unique Variances ----
+#> a1 ~~ a1 
+#> b1 ~~ b1 
+#> c1 ~~ c1 
+#> a2 ~~ a2 
+#> b2 ~~ b2 
+#> c2 ~~ c2 
+#> # Specify Unique Covariances ----
+#> a1 ~~ a2
+#> b1 ~~ b2
+#> c1 ~~ c2
+```
+
 ## Resources and related work
 
 R functions to test for longitudinal factorial/measurement invariance

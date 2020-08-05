@@ -31,27 +31,22 @@ library(semPlot)
 ```{r}
 
 filepath <- "https://quantdev.ssri.psu.edu/sites/qdev/files/WISC_MIexample.csv"
-data_raw2 <- read_csv(file = url(filepath))
-
-data2 <- data_raw2
-
-names(data2) <- c("id", 
-                  "x_t1_i1", "x_t1_i2", "x_t1_i3", "x_t1_i4", 
-                  "x_t2_i1", "x_t2_i2", "x_t2_i3", "x_t2_i4")
+df <- read_csv(file = url(filepath))
 
 ```
 
 ## Remove correlated uniqueness
 
 ```{r}
-
-configural <- long_minvariance_syntax(n_items = 4, 
-                                      n_timepoints = 2, 
+# Correlated uniqueness can be removed using the "remove" argument
+configural <- long_minvariance_syntax(var_list = list(t1 = c("info1", "comp1", "simi1", "voca1"),
+                                                      t6 = c("info6", "comp6", "simi6", "voca6")),
                                       model = "configural", 
-                                      remove = list(unique_covar = T))
+                                      remove = list(unique_covar = TRUE))
 
 fit_configural <- cfa(configural,
-                      data = data2)
+                      data = df)
+
 
 summary(fit_configural, fit.measures = TRUE)
 
@@ -70,12 +65,12 @@ semPaths(fit_configural,
 
 ```{r}
 
-configural_unique <- long_minvariance_syntax(n_items = 4, 
-                                             n_timepoints = 2, 
+configural_unique <- long_minvariance_syntax(var_list = list(t1 = c("info1", "comp1", "simi1", "voca1"),
+                                                             t6 = c("info6", "comp6", "simi6", "voca6")),
                                              model = "configural")
 
 fit_configural_unique <- cfa(configural_unique,
-                             data = data2)
+                             data = df)
 
 summary(fit_configural_unique, 
         fit.measures = TRUE)
@@ -95,11 +90,11 @@ semPaths(fit_configural_unique,
 
 ```{r}
 
-long_minvariance(data = data2, 
-                 n_items = 4, 
-                 n_timepoints = 2, 
-                 remove = list(unique_covar = T), 
-                 return = "fit_statistics") %>% 
+minvariance(data = df, 
+            var_list = list(t1 = c("info1", "comp1", "simi1", "voca1"),
+                            t6 = c("info6", "comp6", "simi6", "voca6")),
+            remove = list(unique_covar = T), 
+            return = "fit_statistics") %>% 
   knitr::kable(digits = 3)
 
 ```
@@ -108,11 +103,11 @@ long_minvariance(data = data2,
 
 ```{r}
 
-long_minvariance(data = data2, 
-                 n_items = 4,
-                 n_timepoints = 2, 
-                 remove = list(unique_covar = T), 
-                 return = "model_tests") %>% 
+minvariance(data = df, 
+            var_list = list(t1 = c("info1", "comp1", "simi1", "voca1"),
+                            t6 = c("info6", "comp6", "simi6", "voca6")),
+            remove = list(unique_covar = T), 
+            return = "model_tests") %>% 
   knitr::kable(digits = 3)
 
 ```
@@ -123,11 +118,11 @@ long_minvariance(data = data2,
 
 ```{r}
 
-lminvar_syntax <- long_minvariance(data = data2, 
-                                   n_items = 4,
-                                   n_timepoints = 2, 
-                                   remove = list(unique_covar = T), 
-                                   return = "lavaan_syntax") 
+lminvar_syntax <- minvariance(data = data, 
+                              var_list = list(t1 = c("info1", "comp1", "simi1", "voca1"),
+                                              t6 = c("info6", "comp6", "simi6", "voca6")),
+                              remove = list(unique_covar = T), 
+                              return = "lavaan_syntax") 
 
 ```
 

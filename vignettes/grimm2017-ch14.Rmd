@@ -31,37 +31,34 @@ library(semPlot)
 ```{r data}
 data_url <- "https://quantdev.ssri.psu.edu/sites/qdev/files/ECLS_Science.csv"
 
-data_raw <- read_csv(file = url(data_url)) %>% 
+df <- read_csv(file = url(data_url)) %>% 
   select("id", 
          "s_g3", "r_g3", "m_g3", 
          "s_g5", "r_g5", "m_g5", 
          "s_g8", "r_g8", "m_g8")
 
 # Rename so functions work
-data <- data_raw
-names(data) <- c("id", 
-                 "x_t1_i1", "x_t1_i2", "x_t1_i3", 
-                 "x_t2_i1", "x_t2_i2", "x_t2_i3", 
-                 "x_t3_i1", "x_t3_i2", "x_t3_i3")
+timepoints <- list(t3 = c("s_g3", "r_g3", "m_g3"), 
+                   t5 = c("s_g5", "r_g5", "m_g5"), 
+                   t8 = c("s_g8", "r_g8", "m_g8"))
 ```
 
 ## lavaan objects
 
 ```{r, warning=F}
 
-long_minvariance(data = data, 
-                 n_items = 3, 
-                 n_timepoints = 3, 
-                 return = "lavaan_objects")
+minvariance(data = df, 
+            var_list = timepoints, 
+            return = "lavaan_objects")
+
 ```
 
 ## Fit statistics
 
 ```{r, warning=F}
-long_minvariance(data = data, 
-                 n_items = 3, 
-                 n_timepoints = 3, 
-                 return = "fit_statistics") %>% 
+minvariance(data = df, 
+            var_list = timepoints, 
+            return = "fit_statistics") %>% 
   knitr::kable(digits = 3)
 ```
 
@@ -69,9 +66,8 @@ long_minvariance(data = data,
 
 ```{r, warning=F}
 
-long_minvariance(data = data, 
-                 n_items = 3, 
-                 n_timepoints = 3, 
+minvariance(data = df, 
+                 var_list = timepoints, 
                  return = "model_tests") %>% 
   knitr::kable(digits = 3)
 
@@ -82,10 +78,9 @@ long_minvariance(data = data,
 
 ```{r}
 
-lminvar_syntax <- long_minvariance(data = data, 
-                                   n_items = 3, 
-                                   n_timepoints = 3, 
-                                   return = "lavaan_syntax") 
+lminvar_syntax <- minvariance(data = df, 
+                             var_list = timepoints, 
+                             return = "lavaan_syntax") 
 
 ```
 

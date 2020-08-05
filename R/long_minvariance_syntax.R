@@ -2,20 +2,22 @@
 
 #' Specify longitudinal measurement invariance models
 #'
-#' @param n_items
-#' @param n_timepoints
-#' @param add
-#' @param remove
-#' @param model
-#' @param measure_name
-#' @param time_str
-#' @param item_str
+#' @param var_list List specifying the variable names for each time point. The number of variable names need to be identical at each time point (same measure).
+#' @param add String, lavaan syntax to be added to the model
+#' @param remove List, remove specific parts of the automatically generated model
+#' @param model String, specify measurement invariance model: "configural", "weak", "strong", or "strict".
+#' @param measure_name String, name of the measure
 #'
 #' @return
 #' @export
-long_minvariance_syntax <- function(var_list, add = NULL, remove = NULL, model = c("configural", "weak", "strong", "strict"), measure_name = "x", time_str = "_t", item_str = "_i") {
+long_minvariance_syntax <- function(var_list, add = NULL, remove = NULL, model = c("configural", "weak", "strong", "strict")) {
 
   model <- match.arg(model)
+
+  # Specify temporary var names to be replaced in other functions by var_list
+  measure_name <- "x"
+  time_str <-  "_t"
+  item_str <-  "_i"
 
   # Test if equal, if not error
   if( length((unique(lengths(var_list))) == 1L) == FALSE) {
@@ -116,7 +118,7 @@ long_minvariance_syntax <- function(var_list, add = NULL, remove = NULL, model =
 
   }
 
-  lavaan_str_return <- stringr::str_c(lavaan_str_heading,
+  lavaan_str_temp <- stringr::str_c(lavaan_str_heading,
                                       lavaan_str_latent_factors,
                                       lavaan_str_latent_variable_means,
                                       specify_latent_variable_variances,
@@ -126,6 +128,24 @@ long_minvariance_syntax <- function(var_list, add = NULL, remove = NULL, model =
                                       lavaan_str_unique_covariances,
                                       add_lavaan_syntax,
                                       collapse = "")
+
+
+  # NOW RENAME
+
+
+  str_replace_pattern <- var_list %>%
+    unlist()
+
+  names(str_replace_pattern) <- paste0(measure_name, time_str,  1:n_timepoints) %>%
+    as.list() %>%
+    purrr::map(~ paste0(.x, item_str, 1:n_items)) %>%
+    unlist()
+
+
+  lavaan_str_return <- str_replace_all(string = lavaan_str_temp,
+                  pattern = str_replace_pattern)
+
+
   return(lavaan_str_return)
 }
 

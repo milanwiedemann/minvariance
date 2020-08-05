@@ -35,36 +35,25 @@ devtools::install_github("milanwiedemann/minvariance")
 
 ```{r}
 library(tidyverse)
-vars <- list(t1 = c("i1_t1", "i2_t1", "i3_t1"), t2 = c("i1_t2", "i1_t2", "i1_t2"))
+library(minvariance)
+# Specify list of variables 
+timepoints <- list(t1 = c("i1_t1", "i2_t1", "i3_t1"), t2 = c("i1_t2", "i1_t2", "i1_t2"))
 
-long_minvariance_syntax(var_list = vars) %>% cat()
+# Generate lavaan syntax
+long_minvariance_syntax(var_list = timepoints, model = "configural") %>% 
+  cat()
 ```
 
-```{r}
-
-vars <- list(t1 = c("i1_t1", "i2_t1"), t2 = c("i1_t2", "i1_t2"), t3 = c("i1_t3", "i1_t3"))
-
-long_minvariance_syntax(var_list = vars) %>% cat()
-```
-
+Here's another example with different variable names
 
 ```{r}
 library(tidyverse)
 
-vars_funny_names <- list(t1 = c("a1", "b1", "c1"), t2 = c("a2", "b2", "c2"))
+timepoints_abc <- list(t1 = c("a1", "b1", "c1"), t2 = c("a2", "b2", "c2"))
 
-str_replace_pattern <- vars_funny_names %>% unlist
-
-names(str_replace_pattern) <- c("x_t1_i1", "x_t1_i2", "x_t1_i3", "x_t2_i1", "x_t2_i2", "x_t2_i3")
-
-str_lavaan <- long_minvariance_syntax(var_list = vars_funny_names) 
-
-str_lavaan
-
-str_replace_all(string = str_lavaan,
-                pattern = str_replace_pattern) %>% 
+# Generate lavaan syntax
+long_minvariance_syntax(var_list = timepoints_abc, model = "strong") %>% 
   cat()
-
 
 ```
 

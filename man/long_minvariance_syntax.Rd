@@ -8,14 +8,19 @@ long_minvariance_syntax(
   var_list,
   add = NULL,
   remove = NULL,
-  model = c("configural", "weak", "strong", "strict"),
-  measure_name = "x",
-  time_str = "_t",
-  item_str = "_i"
+  model = c("configural", "weak", "strong", "strict")
 )
 }
 \arguments{
-\item{item_str}{}
+\item{var_list}{List specifying the variable names for each time point. The number of variable names need to be identical at each time point (same measure).}
+
+\item{add}{String, lavaan syntax to be added to the model}
+
+\item{remove}{List, remove specific parts of the automatically generated model}
+
+\item{model}{String, specify measurement invariance model: "configural", "weak", "strong", or "strict".}
+
+\item{measure_name}{String, name of the measure}
 }
 \value{
 

@@ -7,7 +7,9 @@
 extract_fit(..., details = FALSE)
 }
 \arguments{
-\item{details}{}
+\item{...}{lavaan objects}
+
+\item{details}{Logical, specify whether to return detailed fir statistics}
 }
 \value{
 

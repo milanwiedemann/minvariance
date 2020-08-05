@@ -1,12 +1,11 @@
 #' Extract fit statistics
 #'
-#' @param ...
-#' @param details
+#' @param ... lavaan objects
+#' @param details Logical, specify whether to return detailed fir statistics
 #'
 #' @return
 #' @export
 #'
-#' @examples
 extract_fit <- function(..., details = FALSE) {
 
   lavaan_objects <- list(...)

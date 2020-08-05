@@ -1,14 +1,4 @@
-#' Specify lavaan syntax for latent factors
-#'
-#' @param n_items
-#' @param measure_name
-#' @param n_timepoints
-#' @param model
-#'
-#' @return
-#' @export
-#'
-#' @examples
+
 specify_latent_factors <- function(n_items, n_timepoints, model = c("configural", "weak", "strong", "strict"), measure_name = "x", time_str = "_t", item_str = "_i"){
 
   model <- match.arg(model)
@@ -55,18 +45,7 @@ specify_latent_factors <- function(n_items, n_timepoints, model = c("configural"
 }
 
 
-#' Title
-#'
-#' @param n_items
-#' @param measure_name
-#' @param n_timepoints
-#' @param model
-#'
-#' @return
-#' @export
-#'
-#' @examples
-#'
+
 specify_latent_variable_variances <- function(n_items, n_timepoints, model = c("configural", "weak", "strong", "strict"), measure_name = "x", time_str = "s", item_str = "i"){
 
   model <- match.arg(model)
@@ -92,17 +71,6 @@ specify_latent_variable_variances <- function(n_items, n_timepoints, model = c("
 }
 
 
-#' Title
-#'
-#' @param n_items
-#' @param measure_name
-#' @param n_timepoints
-#' @param model
-#'
-#' @return
-#' @export
-#'
-#' @examples
 specify_latent_variable_means <- function(n_items, n_timepoints, model = c("configural", "weak", "strong", "strict"), measure_name = "x", time_str = "_t", item_str = "_i"){
 
   model <- match.arg(model)
@@ -124,19 +92,7 @@ specify_latent_variable_means <- function(n_items, n_timepoints, model = c("conf
 }
 
 
-#' Title
-#'
-#' @param n_items
-#' @param n_timepoints
-#' @param model
-#' @param measure_name
-#' @param time_str
-#' @param item_str
-#'
-#' @return
-#' @export
-#'
-#' @examples
+
 specify_latent_variable_covariances <- function(n_items, n_timepoints, model = c("configural", "weak", "strong", "strict"), measure_name = "x", time_str = "s", item_str = "i"){
 
   model <- match.arg(model)
@@ -169,17 +125,7 @@ specify_latent_variable_covariances <- function(n_items, n_timepoints, model = c
 
 
 
-#' Title
-#'
-#' @param n_items
-#' @param measure_name
-#' @param n_timepoints
-#' @param model
-#'
-#' @return
-#' @export
-#'
-#' @examples
+
 specify_observed_intercepts <- function(n_items, n_timepoints, model = c("configural", "weak", "strong", "strict"), measure_name = "x", time_str = "_t", item_str = "_i"){
 
   model <- match.arg(model)
@@ -210,18 +156,6 @@ specify_observed_intercepts <- function(n_items, n_timepoints, model = c("config
 }
 
 
-
-#' Title
-#'
-#' @param n_items
-#' @param measure_name
-#' @param n_timepoints
-#' @param model
-#'
-#' @return
-#' @export
-#'
-#' @examples
 specify_unique_variances <- function(n_items, n_timepoints, model = c("configural", "weak", "strong", "strict"), measure_name = "x", time_str = "_t", item_str = "_i"){
 
   model <- match.arg(model)
@@ -251,19 +185,6 @@ specify_unique_variances <- function(n_items, n_timepoints, model = c("configura
 
 
 
-#' Title
-#'
-#' @param n_items
-#' @param n_timepoints
-#' @param model
-#' @param measure_name
-#' @param time_str
-#' @param item_str
-#'
-#' @return
-#' @export
-#'
-#' @examples
 specify_unique_covariances <- function(n_items, n_timepoints, model = c("configural", "weak", "strong", "strict"), measure_name = "x", time_str = "_t", item_str = "_i"){
 
   model <- match.arg(model)
@@ -302,16 +223,6 @@ specify_unique_covariances <- function(n_items, n_timepoints, model = c("configu
 }
 
 
-
-#' Title
-#'
-#' @param syntax_heading
-#' @param lavaan_str
-#'
-#' @return
-#' @export
-#'
-#' @examples
 tidy_lavaan_str <- function(syntax_heading, lavaan_str) {
 
   lavaan_str <- paste0(syntax_heading, stringr::str_c(lavaan_str, collapse = ""))
