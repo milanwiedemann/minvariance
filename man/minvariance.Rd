@@ -36,9 +36,6 @@ minvariance(
 
 }
 \description{
-Test longitudinal measurement invariance
-}
-\details{
 This function automatically runs 4 automatically generated measurement invariance models.
-This may not be appropriate and it might be more useful to generate lavaan syntax using long_minvariance_syntax() function for each model separately and run confirmatory factor analyses using lavaan::cfa()
+This may not be appropriate and it might be more useful to generate lavaan syntax using \link[minvariance]{long_minvariance_syntax} function for each model separately and run confirmatory factor analyses using the \link[lavaan]{cfa} function from lavaan.
 }

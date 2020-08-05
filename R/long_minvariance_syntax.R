@@ -1,6 +1,6 @@
 
 
-#' Specify longitudinal measurement invariance models
+#' Specify longitudinal measurement invariance of one factor models.
 #'
 #' @param var_list List specifying the variable names for each time point. The number of variable names need to be identical at each time point (same measure).
 #' @param add String, lavaan syntax to be added to the model

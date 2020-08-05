@@ -1,8 +1,8 @@
 
 #' Test longitudinal measurement invariance
 #'
-#' @details This function automatically runs 4 automatically generated measurement invariance models.
-#' This may not be appropriate and it might be more useful to generate lavaan syntax using long_minvariance_syntax() function for each model separately and run confirmatory factor analyses using lavaan::cfa()
+#' @description  This function automatically runs 4 automatically generated measurement invariance models.
+#' This may not be appropriate and it might be more useful to generate lavaan syntax using \link[minvariance]{long_minvariance_syntax} function for each model separately and run confirmatory factor analyses using the \link[lavaan]{cfa} function from lavaan.
 #'
 #' @param data Data in wide format (one row for each participant, one column for each item at each time point)
 #' @param var_list List specifying the variable names for each time point. The number of variable names need to be identical at each time point (same measure).

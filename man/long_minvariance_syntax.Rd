@@ -2,7 +2,7 @@
 % Please edit documentation in R/long_minvariance_syntax.R
 \name{long_minvariance_syntax}
 \alias{long_minvariance_syntax}
-\title{Specify longitudinal measurement invariance models}
+\title{Specify longitudinal measurement invariance of one factor models.}
 \usage{
 long_minvariance_syntax(
   var_list,
@@ -26,5 +26,5 @@ long_minvariance_syntax(
 
 }
 \description{
-Specify longitudinal measurement invariance models
+Specify longitudinal measurement invariance of one factor models.
 }
