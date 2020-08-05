@@ -9,10 +9,10 @@
 
 The goal of `minvariance` is to help me understand longitudinal
 measurement invariance. I’m trying to see which parts of this method can
-be automated. Currently variable names need to be in a very specific
-format; `measure_timepoint_itemnumber`. The number of time points and
-items also need to be specified in separate arguments. **If you have any
-questions, ideas, or comments please get in touch.**
+be automated. The vignettes on the
+[website](https://milanwiedemann.github.io/minvariance/) of this package
+replicate some example I found online. **If you have any questions,
+ideas, or comments please get in touch.**
 
 ## Installation
 
@@ -35,11 +35,12 @@ library(tidyverse)
 #> x dplyr::filter() masks stats::filter()
 #> x dplyr::lag()    masks stats::lag()
 library(minvariance)
-# Specify list of variables 
-timepoints <- list(t1 = c("i1_t1", "i2_t1", "i3_t1"), t2 = c("i1_t2", "i1_t2", "i1_t2"))
 
+# Specify list of variables 
 # Generate lavaan syntax
-long_minvariance_syntax(var_list = timepoints, model = "configural") %>% 
+long_minvariance_syntax(var_list = list(t1 = c("i1_t1", "i2_t1", "i3_t1"), 
+                                        t2 = c("i1_t2", "i1_t2", "i1_t2")), 
+                        model = "configural") %>% 
   cat()
 #> Configural Invariance Model (Pattern Invariance)
 #> #### CONFIGURAL INVARIANCE MODEL ####
@@ -79,10 +80,10 @@ Here’s another example with different variable names
 ``` r
 library(tidyverse)
 
-timepoints_abc <- list(t1 = c("a1", "b1", "c1"), t2 = c("a2", "b2", "c2"))
-
 # Generate lavaan syntax
-long_minvariance_syntax(var_list = timepoints_abc, model = "strong") %>% 
+long_minvariance_syntax(var_list = list(t1 = c("a1", "b1", "c1"), 
+                                        t2 = c("a2", "b2", "c2")), 
+                        model = "strong") %>% 
   cat()
 #> Strong Invariance Model (Scalar Invariance, Intercept Invariance)
 #> #### STRONG INVARIANCE MODEL ####

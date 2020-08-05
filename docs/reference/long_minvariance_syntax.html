@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">minvariance</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9002</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1</span>
       </span>
     </div>
 
@@ -128,22 +128,34 @@
     </div>
 
     <pre class="usage"><span class='fu'>long_minvariance_syntax</span>(
-  <span class='no'>n_items</span>,
-  <span class='no'>n_timepoints</span>,
+  <span class='no'>var_list</span>,
   <span class='kw'>add</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>remove</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>model</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"configural"</span>, <span class='st'>"weak"</span>, <span class='st'>"strong"</span>, <span class='st'>"strict"</span>),
-  <span class='kw'>measure_name</span> <span class='kw'>=</span> <span class='st'>"x"</span>,
-  <span class='kw'>time_str</span> <span class='kw'>=</span> <span class='st'>"_t"</span>,
-  <span class='kw'>item_str</span> <span class='kw'>=</span> <span class='st'>"_i"</span>
+  <span class='kw'>model</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"configural"</span>, <span class='st'>"weak"</span>, <span class='st'>"strong"</span>, <span class='st'>"strict"</span>)
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>item_str</th>
-      <td></td>
+      <th>var_list</th>
+      <td><p>List specifying the variable names for each time point. The number of variable names need to be identical at each time point (same measure).</p></td>
+    </tr>
+    <tr>
+      <th>add</th>
+      <td><p>String, lavaan syntax to be added to the model</p></td>
+    </tr>
+    <tr>
+      <th>remove</th>
+      <td><p>List, remove specific parts of the automatically generated model</p></td>
+    </tr>
+    <tr>
+      <th>model</th>
+      <td><p>String, specify measurement invariance model: "configural", "weak", "strong", or "strict".</p></td>
+    </tr>
+    <tr>
+      <th>measure_name</th>
+      <td><p>String, name of the measure</p></td>
     </tr>
     </table>
 

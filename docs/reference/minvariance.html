@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Extract fit statistics — extract_fit • minvariance</title>
+<title>Test longitudinal measurement invariance — minvariance • minvariance</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Extract fit statistics — extract_fit" />
-<meta property="og:description" content="Extract fit statistics" />
+<meta property="og:title" content="Test longitudinal measurement invariance — minvariance" />
+<meta property="og:description" content="Test longitudinal measurement invariance" />
 
 
 
@@ -118,27 +118,62 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Extract fit statistics</h1>
+    <h1>Test longitudinal measurement invariance</h1>
     
-    <div class="hidden name"><code>extract_fit.Rd</code></div>
+    <div class="hidden name"><code>minvariance.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Extract fit statistics</p>
+    <p>Test longitudinal measurement invariance</p>
     </div>
 
-    <pre class="usage"><span class='fu'>extract_fit</span>(<span class='no'>...</span>, <span class='kw'>details</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>minvariance</span>(
+  <span class='no'>data</span>,
+  <span class='no'>var_list</span>,
+  <span class='kw'>add</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>remove</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>details</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>return</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"fit_statistics"</span>, <span class='st'>"model_tests"</span>, <span class='st'>"lavaan_objects"</span>, <span class='st'>"lavaan_syntax"</span>, <span class='st'>"all"</span>)
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>...</th>
-      <td><p>lavaan objects</p></td>
+      <th>data</th>
+      <td><p>Data in wide format (one row for each participant, one column for each item at each time point)</p></td>
+    </tr>
+    <tr>
+      <th>var_list</th>
+      <td><p>List specifying the variable names for each time point. The number of variable names need to be identical at each time point (same measure).</p></td>
+    </tr>
+    <tr>
+      <th>add</th>
+      <td><p>String, lavaan syntax to be added to the model</p></td>
+    </tr>
+    <tr>
+      <th>remove</th>
+      <td><p>List, remove specific parts of the automatically generated model</p></td>
     </tr>
     <tr>
       <th>details</th>
-      <td><p>Logical, specify whether to return detailed fir statistics</p></td>
+      <td><p>Return details of selected output selected in return argument</p></td>
+    </tr>
+    <tr>
+      <th>return</th>
+      <td><p>What should be returned ("fit_statistics", "model_tests", "lavaan_objects", "lavaan_syntax", "all")</p></td>
+    </tr>
+    <tr>
+      <th>measure_name</th>
+      <td><p>String, name of the measure</p></td>
+    </tr>
+    <tr>
+      <th>time_str</th>
+      <td><p>String, prefix of the point specifier</p></td>
+    </tr>
+    <tr>
+      <th>item_str</th>
+      <td><p>String, prefix of the item specifier</p></td>
     </tr>
     </table>
 
@@ -147,6 +182,10 @@
     
 
 
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>This function automatically runs 4 automatically generated measurement invariance models.
+This may not be appropriate and it might be more useful to generate lavaan syntax using long_minvariance_syntax() function for each model separately and run confirmatory factor analyses using lavaan::cfa()</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -1,13 +1,13 @@
 Package: minvariance
-Title: Longitudinal Measurement Invariance
-Version: 0.0.0.9002
+Title: Testing Measurement Invariance
+Version: 0.0.1
 Authors@R: 
     person(given = "Milan",
            family = "Wiedemann",
            role = c("aut", "cre"),
            email = "milan.wiedemann@gmail.com",
            comment = c(ORCID = "0000-0003-1991-282X"))
-Description: Helper functions to test longitudinal measurement invariance / factorial variance over time.
+Description: Helper functions to generate lavaan syntag to test longitudinal measurement invariance.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
