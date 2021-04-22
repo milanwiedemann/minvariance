@@ -40,7 +40,8 @@
 
 
 <meta property="og:title" content="Test longitudinal measurement invariance — minvariance" />
-<meta property="og:description" content="Test longitudinal measurement invariance" />
+<meta property="og:description" content="This function automatically runs 4 automatically generated measurement invariance models.
+This may not be appropriate and it might be more useful to generate lavaan syntax using long_minvariance_syntax function for each model separately and run confirmatory factor analyses using the cfa function from lavaan." />
 
 
 
@@ -80,7 +81,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -124,17 +125,18 @@
     </div>
 
     <div class="ref-description">
-    <p>Test longitudinal measurement invariance</p>
+    <p>This function automatically runs 4 automatically generated measurement invariance models.
+This may not be appropriate and it might be more useful to generate lavaan syntax using <a href='long_minvariance_syntax.html'>long_minvariance_syntax</a> function for each model separately and run confirmatory factor analyses using the <a href='https://rdrr.io/pkg/lavaan/man/cfa.html'>cfa</a> function from lavaan.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>minvariance</span>(
-  <span class='no'>data</span>,
-  <span class='no'>var_list</span>,
-  <span class='kw'>add</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>remove</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>details</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>return</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"fit_statistics"</span>, <span class='st'>"model_tests"</span>, <span class='st'>"lavaan_objects"</span>, <span class='st'>"lavaan_syntax"</span>, <span class='st'>"all"</span>)
-)</pre>
+    <pre class="usage"><span class='fu'>minvariance</span><span class='op'>(</span>
+  <span class='va'>data</span>,
+  <span class='va'>var_list</span>,
+  add <span class='op'>=</span> <span class='cn'>NULL</span>,
+  remove <span class='op'>=</span> <span class='cn'>NULL</span>,
+  details <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  return <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"fit_statistics"</span>, <span class='st'>"model_tests"</span>, <span class='st'>"lavaan_objects"</span>, <span class='st'>"lavaan_syntax"</span>, <span class='st'>"all"</span><span class='op'>)</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -182,10 +184,6 @@
     
 
 
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>This function automatically runs 4 automatically generated measurement invariance models.
-This may not be appropriate and it might be more useful to generate lavaan syntax using long_minvariance_syntax() function for each model separately and run confirmatory factor analyses using lavaan::cfa()</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -198,11 +196,11 @@ This may not be appropriate and it might be more useful to generate lavaan synta
 
       <footer>
       <div class="copyright">
-  <p>Developed by Milan Wiedemann.</p>
+  <p>Developed by Milan Wiedemann, Urška Košir.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

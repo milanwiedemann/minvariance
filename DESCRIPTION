@@ -1,12 +1,11 @@
 Package: minvariance
 Title: Testing Measurement Invariance
+Date: 2021-04-2
 Version: 0.0.1
-Authors@R: 
-    person(given = "Milan",
-           family = "Wiedemann",
-           role = c("aut", "cre"),
-           email = "milan.wiedemann@gmail.com",
-           comment = c(ORCID = "0000-0003-1991-282X"))
+Authors@R: c(
+  person("Milan", "Wiedemann", email = "milan.wiedemann@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0003-1991-282X")),
+  person("Urška", "Košir", role = "aut", comment = c(ORCID = "0000-0003-2132-4090"))
+  )
 Description: Helper functions to generate lavaan syntag to test longitudinal measurement invariance.
 License: MIT + file LICENSE
 Encoding: UTF-8

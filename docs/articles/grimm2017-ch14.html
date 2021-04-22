@@ -39,7 +39,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -72,7 +72,7 @@
 
       
 
-      </header><script src="grimm2017-ch14_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="grimm2017-ch14_files/header-attrs-2.7/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Replicating Grimm et al (2017) Chapter 14</h1>
@@ -88,35 +88,34 @@
 <ul>
 <li><a href="https://quantdev.ssri.psu.edu/tutorials/growth-modeling-chapter-14-modeling-change-latent-variables-measured-continuous-indicators">Lavaan tutorial Link (by Julie Wood)</a></li>
 </ul>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">minvariance</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tidyverse</span>)
-<span class="co">#&gt; ── Attaching packages ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse 1.3.0 ──</span>
-<span class="co">#&gt; ✓ ggplot2 3.3.2          ✓ purrr   0.3.4     </span>
-<span class="co">#&gt; ✓ tibble  3.0.3.9000     ✓ dplyr   1.0.0     </span>
-<span class="co">#&gt; ✓ tidyr   1.1.0          ✓ stringr 1.4.0     </span>
-<span class="co">#&gt; ✓ readr   1.3.1          ✓ forcats 0.5.0</span>
-<span class="co">#&gt; ── Conflicts ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──</span>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">minvariance</span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
+<span class="co">#&gt; ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──</span>
+<span class="co">#&gt; ✓ ggplot2 3.3.3     ✓ purrr   0.3.4</span>
+<span class="co">#&gt; ✓ tibble  3.1.0     ✓ dplyr   1.0.5</span>
+<span class="co">#&gt; ✓ tidyr   1.1.3     ✓ stringr 1.4.0</span>
+<span class="co">#&gt; ✓ readr   1.4.0     ✓ forcats 0.5.1</span>
+<span class="co">#&gt; ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──</span>
 <span class="co">#&gt; x dplyr::filter() masks stats::filter()</span>
 <span class="co">#&gt; x dplyr::lag()    masks stats::lag()</span>
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">lavaan</span>)
-<span class="co">#&gt; This is lavaan 0.6-6</span>
-<span class="co">#&gt; lavaan is BETA software! Please report any bugs.</span>
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">semPlot</span>)
-<span class="co">#&gt; Registered S3 methods overwritten by 'huge':</span>
-<span class="co">#&gt;   method    from   </span>
-<span class="co">#&gt;   plot.sim  BDgraph</span>
-<span class="co">#&gt;   print.sim BDgraph</span></pre></body></html></div>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://lavaan.ugent.be">lavaan</a></span><span class="op">)</span>
+<span class="co">#&gt; This is lavaan 0.6-8</span>
+<span class="co">#&gt; lavaan is FREE software! Please report any bugs.</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/SachaEpskamp/semPlot">semPlot</a></span><span class="op">)</span></code></pre></div>
 <div id="load-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#load-data" class="anchor"></a>Load data</h2>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="no">data_url</span> <span class="kw">&lt;-</span> <span class="st">"https://quantdev.ssri.psu.edu/sites/qdev/files/ECLS_Science.csv"</span>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">data_url</span> <span class="op">&lt;-</span> <span class="st">"https://quantdev.ssri.psu.edu/sites/qdev/files/ECLS_Science.csv"</span>
 
-<span class="no">df</span> <span class="kw">&lt;-</span> <span class="fu">read_csv</span>(<span class="kw">file</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/connections.html">url</a></span>(<span class="no">data_url</span>)) <span class="kw">%&gt;%</span>
-  <span class="fu">select</span>(<span class="st">"id"</span>,
-         <span class="st">"s_g3"</span>, <span class="st">"r_g3"</span>, <span class="st">"m_g3"</span>,
-         <span class="st">"s_g5"</span>, <span class="st">"r_g5"</span>, <span class="st">"m_g5"</span>,
-         <span class="st">"s_g8"</span>, <span class="st">"r_g8"</span>, <span class="st">"m_g8"</span>)
-<span class="co">#&gt; Parsed with column specification:</span>
+<span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span>file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/connections.html">url</a></span><span class="op">(</span><span class="va">data_url</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu">select</span><span class="op">(</span><span class="st">"id"</span>, 
+         <span class="st">"s_g3"</span>, <span class="st">"r_g3"</span>, <span class="st">"m_g3"</span>, 
+         <span class="st">"s_g5"</span>, <span class="st">"r_g5"</span>, <span class="st">"m_g5"</span>, 
+         <span class="st">"s_g8"</span>, <span class="st">"r_g8"</span>, <span class="st">"m_g8"</span><span class="op">)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; ── Column specification ────────────────────────────────────────────────────────</span>
 <span class="co">#&gt; cols(</span>
 <span class="co">#&gt;   id = col_double(),</span>
 <span class="co">#&gt;   s_g3 = col_double(),</span>
@@ -140,23 +139,24 @@
 <span class="co">#&gt; )</span>
 
 <span class="co"># Rename so functions work</span>
-<span class="no">timepoints</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">t3</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"s_g3"</span>, <span class="st">"r_g3"</span>, <span class="st">"m_g3"</span>),
-                   <span class="kw">t5</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"s_g5"</span>, <span class="st">"r_g5"</span>, <span class="st">"m_g5"</span>),
-                   <span class="kw">t8</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"s_g8"</span>, <span class="st">"r_g8"</span>, <span class="st">"m_g8"</span>))</pre></body></html></div>
+<span class="va">timepoints</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>t3 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"s_g3"</span>, <span class="st">"r_g3"</span>, <span class="st">"m_g3"</span><span class="op">)</span>, 
+                   t5 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"s_g5"</span>, <span class="st">"r_g5"</span>, <span class="st">"m_g5"</span><span class="op">)</span>, 
+                   t8 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"s_g8"</span>, <span class="st">"r_g8"</span>, <span class="st">"m_g8"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="lavaan-objects" class="section level2">
 <h2 class="hasAnchor">
 <a href="#lavaan-objects" class="anchor"></a>lavaan objects</h2>
-<div class="sourceCode" id="cb3"><html><body><pre class="r">
-<span class="fu"><a href="../reference/minvariance.html">minvariance</a></span>(<span class="kw">data</span> <span class="kw">=</span> <span class="no">df</span>,
-            <span class="kw">var_list</span> <span class="kw">=</span> <span class="no">timepoints</span>,
-            <span class="kw">return</span> <span class="kw">=</span> <span class="st">"lavaan_objects"</span>)
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+<span class="fu"><a href="../reference/minvariance.html">minvariance</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">df</span>, 
+            var_list <span class="op">=</span> <span class="va">timepoints</span>, 
+            return <span class="op">=</span> <span class="st">"lavaan_objects"</span><span class="op">)</span>
 <span class="co">#&gt; $configural</span>
-<span class="co">#&gt; lavaan 0.6-6 ended normally after 277 iterations</span>
+<span class="co">#&gt; lavaan 0.6-8 ended normally after 280 iterations</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;   Estimator                                         ML</span>
 <span class="co">#&gt;   Optimization method                           NLMINB</span>
-<span class="co">#&gt;   Number of free parameters                         43</span>
+<span class="co">#&gt;   Number of model parameters                        43</span>
 <span class="co">#&gt;   Number of equality constraints                     4</span>
 <span class="co">#&gt;                                                       </span>
 <span class="co">#&gt;                                                   Used       Total</span>
@@ -170,11 +170,11 @@
 <span class="co">#&gt;   P-value (Chi-square)                           0.002</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $weak</span>
-<span class="co">#&gt; lavaan 0.6-6 ended normally after 209 iterations</span>
+<span class="co">#&gt; lavaan 0.6-8 ended normally after 210 iterations</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;   Estimator                                         ML</span>
 <span class="co">#&gt;   Optimization method                           NLMINB</span>
-<span class="co">#&gt;   Number of free parameters                         43</span>
+<span class="co">#&gt;   Number of model parameters                        43</span>
 <span class="co">#&gt;   Number of equality constraints                     8</span>
 <span class="co">#&gt;                                                       </span>
 <span class="co">#&gt;                                                   Used       Total</span>
@@ -188,11 +188,11 @@
 <span class="co">#&gt;   P-value (Chi-square)                           0.000</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $strong</span>
-<span class="co">#&gt; lavaan 0.6-6 ended normally after 210 iterations</span>
+<span class="co">#&gt; lavaan 0.6-8 ended normally after 210 iterations</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;   Estimator                                         ML</span>
 <span class="co">#&gt;   Optimization method                           NLMINB</span>
-<span class="co">#&gt;   Number of free parameters                         43</span>
+<span class="co">#&gt;   Number of model parameters                        43</span>
 <span class="co">#&gt;   Number of equality constraints                    12</span>
 <span class="co">#&gt;                                                       </span>
 <span class="co">#&gt;                                                   Used       Total</span>
@@ -206,11 +206,11 @@
 <span class="co">#&gt;   P-value (Chi-square)                           0.000</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $strict</span>
-<span class="co">#&gt; lavaan 0.6-6 ended normally after 234 iterations</span>
+<span class="co">#&gt; lavaan 0.6-8 ended normally after 231 iterations</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;   Estimator                                         ML</span>
 <span class="co">#&gt;   Optimization method                           NLMINB</span>
-<span class="co">#&gt;   Number of free parameters                         43</span>
+<span class="co">#&gt;   Number of model parameters                        43</span>
 <span class="co">#&gt;   Number of equality constraints                    18</span>
 <span class="co">#&gt;                                                       </span>
 <span class="co">#&gt;                                                   Used       Total</span>
@@ -221,15 +221,16 @@
 <span class="co">#&gt;                                                       </span>
 <span class="co">#&gt;   Test statistic                               600.614</span>
 <span class="co">#&gt;   Degrees of freedom                                29</span>
-<span class="co">#&gt;   P-value (Chi-square)                           0.000</span></pre></body></html></div>
+<span class="co">#&gt;   P-value (Chi-square)                           0.000</span></code></pre></div>
 </div>
 <div id="fit-statistics" class="section level2">
 <h2 class="hasAnchor">
 <a href="#fit-statistics" class="anchor"></a>Fit statistics</h2>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="fu"><a href="../reference/minvariance.html">minvariance</a></span>(<span class="kw">data</span> <span class="kw">=</span> <span class="no">df</span>,
-            <span class="kw">var_list</span> <span class="kw">=</span> <span class="no">timepoints</span>,
-            <span class="kw">return</span> <span class="kw">=</span> <span class="st">"fit_statistics"</span>) <span class="kw">%&gt;%</span>
-  <span class="kw pkg">knitr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(<span class="kw">digits</span> <span class="kw">=</span> <span class="fl">3</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/minvariance.html">minvariance</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">df</span>, 
+            var_list <span class="op">=</span> <span class="va">timepoints</span>, 
+            return <span class="op">=</span> <span class="st">"fit_statistics"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span>digits <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left">model</th>
@@ -298,11 +299,12 @@
 <div id="model-tests" class="section level2">
 <h2 class="hasAnchor">
 <a href="#model-tests" class="anchor"></a>Model tests</h2>
-<div class="sourceCode" id="cb5"><html><body><pre class="r">
-<span class="fu"><a href="../reference/minvariance.html">minvariance</a></span>(<span class="kw">data</span> <span class="kw">=</span> <span class="no">df</span>,
-                 <span class="kw">var_list</span> <span class="kw">=</span> <span class="no">timepoints</span>,
-                 <span class="kw">return</span> <span class="kw">=</span> <span class="st">"model_tests"</span>) <span class="kw">%&gt;%</span>
-  <span class="kw pkg">knitr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(<span class="kw">digits</span> <span class="kw">=</span> <span class="fl">3</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+<span class="fu"><a href="../reference/minvariance.html">minvariance</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">df</span>, 
+                 var_list <span class="op">=</span> <span class="va">timepoints</span>, 
+                 return <span class="op">=</span> <span class="st">"model_tests"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span>digits <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left"></th>
@@ -361,10 +363,11 @@
 <div id="lavaan-syntax" class="section level2">
 <h2 class="hasAnchor">
 <a href="#lavaan-syntax" class="anchor"></a>lavaan syntax</h2>
-<div class="sourceCode" id="cb6"><html><body><pre class="r">
-<span class="no">lminvar_syntax</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/minvariance.html">minvariance</a></span>(<span class="kw">data</span> <span class="kw">=</span> <span class="no">df</span>,
-                             <span class="kw">var_list</span> <span class="kw">=</span> <span class="no">timepoints</span>,
-                             <span class="kw">return</span> <span class="kw">=</span> <span class="st">"lavaan_syntax"</span>)
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+<span class="va">lminvar_syntax</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/minvariance.html">minvariance</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">df</span>, 
+                             var_list <span class="op">=</span> <span class="va">timepoints</span>, 
+                             return <span class="op">=</span> <span class="st">"lavaan_syntax"</span><span class="op">)</span> 
 <span class="co">#&gt; Warning in lav_data_full(data = data, group = group, cluster = cluster, : lavaan WARNING: some cases are empty and will be ignored:</span>
 <span class="co">#&gt;   1 2 5 6 9 11 17 26 37 43 44 53 59 61 65 66 73 77 78 81 90 91 94 95 105 106 108 109 112 115 119 120 125 126 127 129 132 136 137 142 149 150 153 155 156 158 159 160 161 162 164 170 172 176 177 178 180 181 182 183 186 191 192 193 199 206 211 213 218 231 232 237 239 241 260 263 264 271 273 276 279 281 299 300 301 308 310 315 323 324 325 326 327 350 351 352 353 356 362 364 370 372 373 375 376 378 381 386 387 392 393 402 403 404 405 406 409 412 415 420 421 422 429 438 439 443 444 449 455 458 462 464 470 476 478 480 481 483 484 485 486 489 491 494 503 508 518 523 524 541 543 548 552 554 559 561 565 569 573 574 576 579 587 593 595 600 605 607 627 632 642 643 644 646 647 648 663 664 665 666 667 677 680 682 683 687 693 695 698 701 704 713 717 719 720 731 733 734 736 751 755 758 763 764 765 767 768 769 770 772 774 781 782 799 802 818 820 822 827 829 843 846 848 850 857 860 875 878 879 883 891 892 895 897 898 899 900 906 910 911 912 913 915 916 917 918 919 920 923 926 928 929 932 936 938 945 946 948 959 960 964 966 969 970 976 978 980 981 982 983 990 992 993 994 997 998 1002 1005 1009 1016 1022 1025 1035 1043 1044 1045 1047 1054 1056 1057 1061 1062 1080 1087 1088 1090 1095 1096 1098 1099 1104 1105 1106 1107 1109 1113 1115 1117 1118 1125 1126 1127 1128 1129 1131 1133 1139 1146 1149 1152 1153 1157 1163 1164 1165 1167 1172 1183 1185 1186 1195 1198 1200 1202 1211 1215 1218 1228 1229 1236 1238 1247 1248 1249 1250 1251 1252 1255 1259 1262 1263 1264 1266 1267 1270 1275 1276 1277 1279 1280 1281 1286 1289 1290 1302 1303 1306 1309 1310 1311 1314 1317 1320 1329 1330 1336 1338 1339 1343 1344 1353 1354 1356 1357 1358 1360 1367 1372 1379 1384 1386 1389 1399 1403 1405 1410 1411 1412 1414 1418 1421 1422 1423 1428 1429 1430 1434 1437 1439 1441 1445 1449 1451 1455 1459 1462 1464 1465 1466 1467 1469 1471 1480 1483 1487 1488 1493 1496 1497 1506 1507 1516 1528 1530 1531 1533 1534 1535 1536 1537 1538 1543 1544 1545 1549 1553 1555 1556 1557 1558 1559 1562 1565 1568 1570 1573 1579 1580 1581 1586 1587 1593 1594 1597 1601 1602 1605 1606 1610 1612 1615 1620 1622 1626 1629 1634 1636 1638 1648 1654 1657 1659 1662 1663 1669 1670 1671 1672 1681 1682 1685 1686 1687 1688 1690 1699 1702 1705 1706 1710 1712 1717 1719 1720 1727 1728 1729 1736 1742 1745 1748 1751 1762 1765 1766 1771 1777 1778 1780 1787 1788 1789 1790 1794 1796 1797 1804 1809 1822 1826 1828 1831 1836 1838 1839 1840 1841 1844 1845 1846 1854 1855 1860 1862 1863 1865 1866 1867 1869 1874 1875 1876 1878 1879 1885 1886 1891 1895 1897 1899 1902 1903 1906 1911 1914 1915 1916 1924 1925 1926 1930 1931 1933 1943 1944 1950 1954 1959 1960 1964 1965 1969 1978 1980 1985 1986 1990 1993 1994 1996 1997 2000 2004 2008 2009 2010 2012 2013 2014 2016 2017 2019 2021 2029 2030 2031 2032 2033 2034 2035 2043 2045 2050 2051 2052 2053 2056 2061 2066 2069 2073 2075 2076 2079 2080 2090 2101 2102 2105 2108</span>
 
@@ -375,13 +378,14 @@
 <span class="co">#&gt;   1 2 5 6 9 11 17 26 37 43 44 53 59 61 65 66 73 77 78 81 90 91 94 95 105 106 108 109 112 115 119 120 125 126 127 129 132 136 137 142 149 150 153 155 156 158 159 160 161 162 164 170 172 176 177 178 180 181 182 183 186 191 192 193 199 206 211 213 218 231 232 237 239 241 260 263 264 271 273 276 279 281 299 300 301 308 310 315 323 324 325 326 327 350 351 352 353 356 362 364 370 372 373 375 376 378 381 386 387 392 393 402 403 404 405 406 409 412 415 420 421 422 429 438 439 443 444 449 455 458 462 464 470 476 478 480 481 483 484 485 486 489 491 494 503 508 518 523 524 541 543 548 552 554 559 561 565 569 573 574 576 579 587 593 595 600 605 607 627 632 642 643 644 646 647 648 663 664 665 666 667 677 680 682 683 687 693 695 698 701 704 713 717 719 720 731 733 734 736 751 755 758 763 764 765 767 768 769 770 772 774 781 782 799 802 818 820 822 827 829 843 846 848 850 857 860 875 878 879 883 891 892 895 897 898 899 900 906 910 911 912 913 915 916 917 918 919 920 923 926 928 929 932 936 938 945 946 948 959 960 964 966 969 970 976 978 980 981 982 983 990 992 993 994 997 998 1002 1005 1009 1016 1022 1025 1035 1043 1044 1045 1047 1054 1056 1057 1061 1062 1080 1087 1088 1090 1095 1096 1098 1099 1104 1105 1106 1107 1109 1113 1115 1117 1118 1125 1126 1127 1128 1129 1131 1133 1139 1146 1149 1152 1153 1157 1163 1164 1165 1167 1172 1183 1185 1186 1195 1198 1200 1202 1211 1215 1218 1228 1229 1236 1238 1247 1248 1249 1250 1251 1252 1255 1259 1262 1263 1264 1266 1267 1270 1275 1276 1277 1279 1280 1281 1286 1289 1290 1302 1303 1306 1309 1310 1311 1314 1317 1320 1329 1330 1336 1338 1339 1343 1344 1353 1354 1356 1357 1358 1360 1367 1372 1379 1384 1386 1389 1399 1403 1405 1410 1411 1412 1414 1418 1421 1422 1423 1428 1429 1430 1434 1437 1439 1441 1445 1449 1451 1455 1459 1462 1464 1465 1466 1467 1469 1471 1480 1483 1487 1488 1493 1496 1497 1506 1507 1516 1528 1530 1531 1533 1534 1535 1536 1537 1538 1543 1544 1545 1549 1553 1555 1556 1557 1558 1559 1562 1565 1568 1570 1573 1579 1580 1581 1586 1587 1593 1594 1597 1601 1602 1605 1606 1610 1612 1615 1620 1622 1626 1629 1634 1636 1638 1648 1654 1657 1659 1662 1663 1669 1670 1671 1672 1681 1682 1685 1686 1687 1688 1690 1699 1702 1705 1706 1710 1712 1717 1719 1720 1727 1728 1729 1736 1742 1745 1748 1751 1762 1765 1766 1771 1777 1778 1780 1787 1788 1789 1790 1794 1796 1797 1804 1809 1822 1826 1828 1831 1836 1838 1839 1840 1841 1844 1845 1846 1854 1855 1860 1862 1863 1865 1866 1867 1869 1874 1875 1876 1878 1879 1885 1886 1891 1895 1897 1899 1902 1903 1906 1911 1914 1915 1916 1924 1925 1926 1930 1931 1933 1943 1944 1950 1954 1959 1960 1964 1965 1969 1978 1980 1985 1986 1990 1993 1994 1996 1997 2000 2004 2008 2009 2010 2012 2013 2014 2016 2017 2019 2021 2029 2030 2031 2032 2033 2034 2035 2043 2045 2050 2051 2052 2053 2056 2061 2066 2069 2073 2075 2076 2079 2080 2090 2101 2102 2105 2108</span>
 
 <span class="co">#&gt; Warning in lav_data_full(data = data, group = group, cluster = cluster, : lavaan WARNING: some cases are empty and will be ignored:</span>
-<span class="co">#&gt;   1 2 5 6 9 11 17 26 37 43 44 53 59 61 65 66 73 77 78 81 90 91 94 95 105 106 108 109 112 115 119 120 125 126 127 129 132 136 137 142 149 150 153 155 156 158 159 160 161 162 164 170 172 176 177 178 180 181 182 183 186 191 192 193 199 206 211 213 218 231 232 237 239 241 260 263 264 271 273 276 279 281 299 300 301 308 310 315 323 324 325 326 327 350 351 352 353 356 362 364 370 372 373 375 376 378 381 386 387 392 393 402 403 404 405 406 409 412 415 420 421 422 429 438 439 443 444 449 455 458 462 464 470 476 478 480 481 483 484 485 486 489 491 494 503 508 518 523 524 541 543 548 552 554 559 561 565 569 573 574 576 579 587 593 595 600 605 607 627 632 642 643 644 646 647 648 663 664 665 666 667 677 680 682 683 687 693 695 698 701 704 713 717 719 720 731 733 734 736 751 755 758 763 764 765 767 768 769 770 772 774 781 782 799 802 818 820 822 827 829 843 846 848 850 857 860 875 878 879 883 891 892 895 897 898 899 900 906 910 911 912 913 915 916 917 918 919 920 923 926 928 929 932 936 938 945 946 948 959 960 964 966 969 970 976 978 980 981 982 983 990 992 993 994 997 998 1002 1005 1009 1016 1022 1025 1035 1043 1044 1045 1047 1054 1056 1057 1061 1062 1080 1087 1088 1090 1095 1096 1098 1099 1104 1105 1106 1107 1109 1113 1115 1117 1118 1125 1126 1127 1128 1129 1131 1133 1139 1146 1149 1152 1153 1157 1163 1164 1165 1167 1172 1183 1185 1186 1195 1198 1200 1202 1211 1215 1218 1228 1229 1236 1238 1247 1248 1249 1250 1251 1252 1255 1259 1262 1263 1264 1266 1267 1270 1275 1276 1277 1279 1280 1281 1286 1289 1290 1302 1303 1306 1309 1310 1311 1314 1317 1320 1329 1330 1336 1338 1339 1343 1344 1353 1354 1356 1357 1358 1360 1367 1372 1379 1384 1386 1389 1399 1403 1405 1410 1411 1412 1414 1418 1421 1422 1423 1428 1429 1430 1434 1437 1439 1441 1445 1449 1451 1455 1459 1462 1464 1465 1466 1467 1469 1471 1480 1483 1487 1488 1493 1496 1497 1506 1507 1516 1528 1530 1531 1533 1534 1535 1536 1537 1538 1543 1544 1545 1549 1553 1555 1556 1557 1558 1559 1562 1565 1568 1570 1573 1579 1580 1581 1586 1587 1593 1594 1597 1601 1602 1605 1606 1610 1612 1615 1620 1622 1626 1629 1634 1636 1638 1648 1654 1657 1659 1662 1663 1669 1670 1671 1672 1681 1682 1685 1686 1687 1688 1690 1699 1702 1705 1706 1710 1712 1717 1719 1720 1727 1728 1729 1736 1742 1745 1748 1751 1762 1765 1766 1771 1777 1778 1780 1787 1788 1789 1790 1794 1796 1797 1804 1809 1822 1826 1828 1831 1836 1838 1839 1840 1841 1844 1845 1846 1854 1855 1860 1862 1863 1865 1866 1867 1869 1874 1875 1876 1878 1879 1885 1886 1891 1895 1897 1899 1902 1903 1906 1911 1914 1915 1916 1924 1925 1926 1930 1931 1933 1943 1944 1950 1954 1959 1960 1964 1965 1969 1978 1980 1985 1986 1990 1993 1994 1996 1997 2000 2004 2008 2009 2010 2012 2013 2014 2016 2017 2019 2021 2029 2030 2031 2032 2033 2034 2035 2043 2045 2050 2051 2052 2053 2056 2061 2066 2069 2073 2075 2076 2079 2080 2090 2101 2102 2105 2108</span></pre></body></html></div>
+<span class="co">#&gt;   1 2 5 6 9 11 17 26 37 43 44 53 59 61 65 66 73 77 78 81 90 91 94 95 105 106 108 109 112 115 119 120 125 126 127 129 132 136 137 142 149 150 153 155 156 158 159 160 161 162 164 170 172 176 177 178 180 181 182 183 186 191 192 193 199 206 211 213 218 231 232 237 239 241 260 263 264 271 273 276 279 281 299 300 301 308 310 315 323 324 325 326 327 350 351 352 353 356 362 364 370 372 373 375 376 378 381 386 387 392 393 402 403 404 405 406 409 412 415 420 421 422 429 438 439 443 444 449 455 458 462 464 470 476 478 480 481 483 484 485 486 489 491 494 503 508 518 523 524 541 543 548 552 554 559 561 565 569 573 574 576 579 587 593 595 600 605 607 627 632 642 643 644 646 647 648 663 664 665 666 667 677 680 682 683 687 693 695 698 701 704 713 717 719 720 731 733 734 736 751 755 758 763 764 765 767 768 769 770 772 774 781 782 799 802 818 820 822 827 829 843 846 848 850 857 860 875 878 879 883 891 892 895 897 898 899 900 906 910 911 912 913 915 916 917 918 919 920 923 926 928 929 932 936 938 945 946 948 959 960 964 966 969 970 976 978 980 981 982 983 990 992 993 994 997 998 1002 1005 1009 1016 1022 1025 1035 1043 1044 1045 1047 1054 1056 1057 1061 1062 1080 1087 1088 1090 1095 1096 1098 1099 1104 1105 1106 1107 1109 1113 1115 1117 1118 1125 1126 1127 1128 1129 1131 1133 1139 1146 1149 1152 1153 1157 1163 1164 1165 1167 1172 1183 1185 1186 1195 1198 1200 1202 1211 1215 1218 1228 1229 1236 1238 1247 1248 1249 1250 1251 1252 1255 1259 1262 1263 1264 1266 1267 1270 1275 1276 1277 1279 1280 1281 1286 1289 1290 1302 1303 1306 1309 1310 1311 1314 1317 1320 1329 1330 1336 1338 1339 1343 1344 1353 1354 1356 1357 1358 1360 1367 1372 1379 1384 1386 1389 1399 1403 1405 1410 1411 1412 1414 1418 1421 1422 1423 1428 1429 1430 1434 1437 1439 1441 1445 1449 1451 1455 1459 1462 1464 1465 1466 1467 1469 1471 1480 1483 1487 1488 1493 1496 1497 1506 1507 1516 1528 1530 1531 1533 1534 1535 1536 1537 1538 1543 1544 1545 1549 1553 1555 1556 1557 1558 1559 1562 1565 1568 1570 1573 1579 1580 1581 1586 1587 1593 1594 1597 1601 1602 1605 1606 1610 1612 1615 1620 1622 1626 1629 1634 1636 1638 1648 1654 1657 1659 1662 1663 1669 1670 1671 1672 1681 1682 1685 1686 1687 1688 1690 1699 1702 1705 1706 1710 1712 1717 1719 1720 1727 1728 1729 1736 1742 1745 1748 1751 1762 1765 1766 1771 1777 1778 1780 1787 1788 1789 1790 1794 1796 1797 1804 1809 1822 1826 1828 1831 1836 1838 1839 1840 1841 1844 1845 1846 1854 1855 1860 1862 1863 1865 1866 1867 1869 1874 1875 1876 1878 1879 1885 1886 1891 1895 1897 1899 1902 1903 1906 1911 1914 1915 1916 1924 1925 1926 1930 1931 1933 1943 1944 1950 1954 1959 1960 1964 1965 1969 1978 1980 1985 1986 1990 1993 1994 1996 1997 2000 2004 2008 2009 2010 2012 2013 2014 2016 2017 2019 2021 2029 2030 2031 2032 2033 2034 2035 2043 2045 2050 2051 2052 2053 2056 2061 2066 2069 2073 2075 2076 2079 2080 2090 2101 2102 2105 2108</span></code></pre></div>
 <div id="configural" class="section level3">
 <h3 class="hasAnchor">
 <a href="#configural" class="anchor"></a>Configural</h3>
-<div class="sourceCode" id="cb7"><html><body><pre class="r">
-<span class="no">lminvar_syntax</span>$<span class="no">configural</span> <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>()
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+<span class="va">lminvar_syntax</span><span class="op">$</span><span class="va">configural</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; #### CONFIGURAL INVARIANCE MODEL ####</span>
 <span class="co">#&gt; # Specify Latent Factors ----</span>
 <span class="co">#&gt; eta1 =~ NA * s_g3 + lambda1 * s_g3 + r_g3 + m_g3</span>
@@ -428,14 +432,15 @@
 <span class="co">#&gt; r_g5 ~~ r_g8</span>
 <span class="co">#&gt; m_g3 ~~ m_g5</span>
 <span class="co">#&gt; m_g3 ~~ m_g8</span>
-<span class="co">#&gt; m_g5 ~~ m_g8</span></pre></body></html></div>
+<span class="co">#&gt; m_g5 ~~ m_g8</span></code></pre></div>
 </div>
 <div id="weak" class="section level3">
 <h3 class="hasAnchor">
 <a href="#weak" class="anchor"></a>Weak</h3>
-<div class="sourceCode" id="cb8"><html><body><pre class="r">
-<span class="no">lminvar_syntax</span>$<span class="no">weak</span> <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>()
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+<span class="va">lminvar_syntax</span><span class="op">$</span><span class="va">weak</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; #### WEAK INVARIANCE MODEL ####</span>
 <span class="co">#&gt; # Specify Latent Factors ----</span>
 <span class="co">#&gt; eta1 =~ NA * s_g3 + lambda1 * s_g3 + lambda2 * r_g3 + lambda3 * m_g3</span>
@@ -482,14 +487,15 @@
 <span class="co">#&gt; r_g5 ~~ r_g8</span>
 <span class="co">#&gt; m_g3 ~~ m_g5</span>
 <span class="co">#&gt; m_g3 ~~ m_g8</span>
-<span class="co">#&gt; m_g5 ~~ m_g8</span></pre></body></html></div>
+<span class="co">#&gt; m_g5 ~~ m_g8</span></code></pre></div>
 </div>
 <div id="strong" class="section level3">
 <h3 class="hasAnchor">
 <a href="#strong" class="anchor"></a>Strong</h3>
-<div class="sourceCode" id="cb9"><html><body><pre class="r">
-<span class="no">lminvar_syntax</span>$<span class="no">strong</span> <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>()
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+<span class="va">lminvar_syntax</span><span class="op">$</span><span class="va">strong</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; #### STRONG INVARIANCE MODEL ####</span>
 <span class="co">#&gt; # Specify Latent Factors ----</span>
 <span class="co">#&gt; eta1 =~ NA * s_g3 + lambda1 * s_g3 + lambda2 * r_g3 + lambda3 * m_g3</span>
@@ -536,14 +542,15 @@
 <span class="co">#&gt; r_g5 ~~ r_g8</span>
 <span class="co">#&gt; m_g3 ~~ m_g5</span>
 <span class="co">#&gt; m_g3 ~~ m_g8</span>
-<span class="co">#&gt; m_g5 ~~ m_g8</span></pre></body></html></div>
+<span class="co">#&gt; m_g5 ~~ m_g8</span></code></pre></div>
 </div>
 <div id="strict" class="section level3">
 <h3 class="hasAnchor">
 <a href="#strict" class="anchor"></a>Strict</h3>
-<div class="sourceCode" id="cb10"><html><body><pre class="r">
-<span class="no">lminvar_syntax</span>$<span class="no">strict</span> <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>()
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+<span class="va">lminvar_syntax</span><span class="op">$</span><span class="va">strict</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; #### STRICT INVARIANCE MODEL ####</span>
 <span class="co">#&gt; # Specify Latent Factors ----</span>
 <span class="co">#&gt; eta1 =~ NA * s_g3 + lambda1 * s_g3 + lambda2 * r_g3 + lambda3 * m_g3</span>
@@ -590,7 +597,7 @@
 <span class="co">#&gt; r_g5 ~~ r_g8</span>
 <span class="co">#&gt; m_g3 ~~ m_g5</span>
 <span class="co">#&gt; m_g3 ~~ m_g8</span>
-<span class="co">#&gt; m_g5 ~~ m_g8</span></pre></body></html></div>
+<span class="co">#&gt; m_g5 ~~ m_g8</span></code></pre></div>
 </div>
 </div>
   </div>
@@ -606,11 +613,11 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Milan Wiedemann.</p>
+  <p>Developed by Milan Wiedemann, Urška Košir.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

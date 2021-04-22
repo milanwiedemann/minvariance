@@ -39,7 +39,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -72,7 +72,7 @@
 
       
 
-      </header><script src="ram-online-tutorial_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="ram-online-tutorial_files/header-attrs-2.7/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Replicating Online Tutorial</h1>
@@ -88,31 +88,30 @@
 <ul>
 <li><a href="https://quantdev.ssri.psu.edu/tutorials/intro-basics-longitudinal-measurement-invariance">Tutorial Link (by Nilam Ram)</a></li>
 </ul>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">minvariance</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tidyverse</span>)
-<span class="co">#&gt; ── Attaching packages ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse 1.3.0 ──</span>
-<span class="co">#&gt; ✓ ggplot2 3.3.2          ✓ purrr   0.3.4     </span>
-<span class="co">#&gt; ✓ tibble  3.0.3.9000     ✓ dplyr   1.0.0     </span>
-<span class="co">#&gt; ✓ tidyr   1.1.0          ✓ stringr 1.4.0     </span>
-<span class="co">#&gt; ✓ readr   1.3.1          ✓ forcats 0.5.0</span>
-<span class="co">#&gt; ── Conflicts ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──</span>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">minvariance</span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
+<span class="co">#&gt; ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──</span>
+<span class="co">#&gt; ✓ ggplot2 3.3.3     ✓ purrr   0.3.4</span>
+<span class="co">#&gt; ✓ tibble  3.1.0     ✓ dplyr   1.0.5</span>
+<span class="co">#&gt; ✓ tidyr   1.1.3     ✓ stringr 1.4.0</span>
+<span class="co">#&gt; ✓ readr   1.4.0     ✓ forcats 0.5.1</span>
+<span class="co">#&gt; ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──</span>
 <span class="co">#&gt; x dplyr::filter() masks stats::filter()</span>
 <span class="co">#&gt; x dplyr::lag()    masks stats::lag()</span>
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">lavaan</span>)
-<span class="co">#&gt; This is lavaan 0.6-6</span>
-<span class="co">#&gt; lavaan is BETA software! Please report any bugs.</span>
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">semPlot</span>)
-<span class="co">#&gt; Registered S3 methods overwritten by 'huge':</span>
-<span class="co">#&gt;   method    from   </span>
-<span class="co">#&gt;   plot.sim  BDgraph</span>
-<span class="co">#&gt;   print.sim BDgraph</span></pre></body></html></div>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://lavaan.ugent.be">lavaan</a></span><span class="op">)</span>
+<span class="co">#&gt; This is lavaan 0.6-8</span>
+<span class="co">#&gt; lavaan is FREE software! Please report any bugs.</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/SachaEpskamp/semPlot">semPlot</a></span><span class="op">)</span></code></pre></div>
 <div id="load-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#load-data" class="anchor"></a>Load data</h2>
-<div class="sourceCode" id="cb2"><html><body><pre class="r">
-<span class="no">filepath</span> <span class="kw">&lt;-</span> <span class="st">"https://quantdev.ssri.psu.edu/sites/qdev/files/WISC_MIexample.csv"</span>
-<span class="no">df</span> <span class="kw">&lt;-</span> <span class="fu">read_csv</span>(<span class="kw">file</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/connections.html">url</a></span>(<span class="no">filepath</span>))
-<span class="co">#&gt; Parsed with column specification:</span>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+<span class="va">filepath</span> <span class="op">&lt;-</span> <span class="st">"https://quantdev.ssri.psu.edu/sites/qdev/files/WISC_MIexample.csv"</span>
+<span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span>file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/connections.html">url</a></span><span class="op">(</span><span class="va">filepath</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; ── Column specification ────────────────────────────────────────────────────────</span>
 <span class="co">#&gt; cols(</span>
 <span class="co">#&gt;   id = col_double(),</span>
 <span class="co">#&gt;   info1 = col_double(),</span>
@@ -123,28 +122,29 @@
 <span class="co">#&gt;   comp6 = col_double(),</span>
 <span class="co">#&gt;   simi6 = col_double(),</span>
 <span class="co">#&gt;   voca6 = col_double()</span>
-<span class="co">#&gt; )</span></pre></body></html></div>
+<span class="co">#&gt; )</span></code></pre></div>
 </div>
 <div id="remove-correlated-uniqueness" class="section level2">
 <h2 class="hasAnchor">
 <a href="#remove-correlated-uniqueness" class="anchor"></a>Remove correlated uniqueness</h2>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="co"># Correlated uniqueness can be removed using the "remove" argument</span>
-<span class="no">configural</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/long_minvariance_syntax.html">long_minvariance_syntax</a></span>(<span class="kw">var_list</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">t1</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"info1"</span>, <span class="st">"comp1"</span>, <span class="st">"simi1"</span>, <span class="st">"voca1"</span>),
-                                                      <span class="kw">t6</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"info6"</span>, <span class="st">"comp6"</span>, <span class="st">"simi6"</span>, <span class="st">"voca6"</span>)),
-                                      <span class="kw">model</span> <span class="kw">=</span> <span class="st">"configural"</span>,
-                                      <span class="kw">remove</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">unique_covar</span> <span class="kw">=</span> <span class="fl">TRUE</span>))
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Correlated uniqueness can be removed using the "remove" argument</span>
+<span class="va">configural</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/long_minvariance_syntax.html">long_minvariance_syntax</a></span><span class="op">(</span>var_list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"info1"</span>, <span class="st">"comp1"</span>, <span class="st">"simi1"</span>, <span class="st">"voca1"</span><span class="op">)</span>,
+                                                      t6 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"info6"</span>, <span class="st">"comp6"</span>, <span class="st">"simi6"</span>, <span class="st">"voca6"</span><span class="op">)</span><span class="op">)</span>,
+                                      model <span class="op">=</span> <span class="st">"configural"</span>, 
+                                      remove <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>unique_covar <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; Configural Invariance Model (Pattern Invariance)</span>
 
-<span class="no">fit_configural</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/lavaan/man/cfa.html">cfa</a></span>(<span class="no">configural</span>,
-                      <span class="kw">data</span> <span class="kw">=</span> <span class="no">df</span>)
+<span class="va">fit_configural</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/lavaan/man/cfa.html">cfa</a></span><span class="op">(</span><span class="va">configural</span>,
+                      data <span class="op">=</span> <span class="va">df</span><span class="op">)</span>
 
 
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="no">fit_configural</span>, <span class="kw">fit.measures</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
-<span class="co">#&gt; lavaan 0.6-6 ended normally after 75 iterations</span>
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">fit_configural</span>, fit.measures <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="co">#&gt; lavaan 0.6-8 ended normally after 75 iterations</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;   Estimator                                         ML</span>
 <span class="co">#&gt;   Optimization method                           NLMINB</span>
-<span class="co">#&gt;   Number of free parameters                         27</span>
+<span class="co">#&gt;   Number of model parameters                        27</span>
 <span class="co">#&gt;   Number of equality constraints                     2</span>
 <span class="co">#&gt;                                                       </span>
 <span class="co">#&gt;   Number of observations                           204</span>
@@ -234,33 +234,35 @@
 <span class="co">#&gt;    .info6            47.096    6.305    7.470    0.000</span>
 <span class="co">#&gt;    .comp6            73.850    8.395    8.797    0.000</span>
 <span class="co">#&gt;    .simi6            88.920   10.222    8.699    0.000</span>
-<span class="co">#&gt;    .voca6            23.267    4.076    5.709    0.000</span></pre></body></html></div>
-<div class="sourceCode" id="cb4"><html><body><pre class="r">
-<span class="fu"><a href="https://rdrr.io/pkg/semPlot/man/semPaths.html">semPaths</a></span>(<span class="no">fit_configural</span>,
-         <span class="kw">what</span><span class="kw">=</span><span class="st">"path"</span>,
-         <span class="kw">whatLabels</span> <span class="kw">=</span> <span class="st">"name"</span>,
-         <span class="kw">sizeInt</span> <span class="kw">=</span> <span class="fl">4</span>, <span class="kw">sizeMan</span> <span class="kw">=</span> <span class="fl">5</span>, <span class="kw">sizeLat</span> <span class="kw">=</span> <span class="fl">6</span>)</pre></body></html></div>
+<span class="co">#&gt;    .voca6            23.267    4.076    5.709    0.000</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+<span class="fu"><a href="https://rdrr.io/pkg/semPlot/man/semPaths.html">semPaths</a></span><span class="op">(</span><span class="va">fit_configural</span>, 
+         what<span class="op">=</span><span class="st">"path"</span>,
+         whatLabels <span class="op">=</span> <span class="st">"name"</span>,
+         sizeInt <span class="op">=</span> <span class="fl">4</span>, sizeMan <span class="op">=</span> <span class="fl">5</span>, sizeLat <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></code></pre></div>
 <p><img src="ram-online-tutorial_files/figure-html/unnamed-chunk-4-1.png" width="500"></p>
 </div>
 <div id="includeing-correlated-uniqueness" class="section level2">
 <h2 class="hasAnchor">
 <a href="#includeing-correlated-uniqueness" class="anchor"></a>Includeing correlated uniqueness</h2>
-<div class="sourceCode" id="cb5"><html><body><pre class="r">
-<span class="no">configural_unique</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/long_minvariance_syntax.html">long_minvariance_syntax</a></span>(<span class="kw">var_list</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">t1</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"info1"</span>, <span class="st">"comp1"</span>, <span class="st">"simi1"</span>, <span class="st">"voca1"</span>),
-                                                             <span class="kw">t6</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"info6"</span>, <span class="st">"comp6"</span>, <span class="st">"simi6"</span>, <span class="st">"voca6"</span>)),
-                                             <span class="kw">model</span> <span class="kw">=</span> <span class="st">"configural"</span>)
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+<span class="va">configural_unique</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/long_minvariance_syntax.html">long_minvariance_syntax</a></span><span class="op">(</span>var_list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"info1"</span>, <span class="st">"comp1"</span>, <span class="st">"simi1"</span>, <span class="st">"voca1"</span><span class="op">)</span>,
+                                                             t6 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"info6"</span>, <span class="st">"comp6"</span>, <span class="st">"simi6"</span>, <span class="st">"voca6"</span><span class="op">)</span><span class="op">)</span>,
+                                             model <span class="op">=</span> <span class="st">"configural"</span><span class="op">)</span>
 <span class="co">#&gt; Configural Invariance Model (Pattern Invariance)</span>
 
-<span class="no">fit_configural_unique</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/lavaan/man/cfa.html">cfa</a></span>(<span class="no">configural_unique</span>,
-                             <span class="kw">data</span> <span class="kw">=</span> <span class="no">df</span>)
+<span class="va">fit_configural_unique</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/lavaan/man/cfa.html">cfa</a></span><span class="op">(</span><span class="va">configural_unique</span>,
+                             data <span class="op">=</span> <span class="va">df</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="no">fit_configural_unique</span>,
-        <span class="kw">fit.measures</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
-<span class="co">#&gt; lavaan 0.6-6 ended normally after 111 iterations</span>
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">fit_configural_unique</span>, 
+        fit.measures <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="co">#&gt; lavaan 0.6-8 ended normally after 111 iterations</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;   Estimator                                         ML</span>
 <span class="co">#&gt;   Optimization method                           NLMINB</span>
-<span class="co">#&gt;   Number of free parameters                         31</span>
+<span class="co">#&gt;   Number of model parameters                        31</span>
 <span class="co">#&gt;   Number of equality constraints                     2</span>
 <span class="co">#&gt;                                                       </span>
 <span class="co">#&gt;   Number of observations                           204</span>
@@ -358,24 +360,26 @@
 <span class="co">#&gt;    .info6            46.958    6.398    7.339    0.000</span>
 <span class="co">#&gt;    .comp6            73.488    8.419    8.729    0.000</span>
 <span class="co">#&gt;    .simi6            88.773   10.271    8.643    0.000</span>
-<span class="co">#&gt;    .voca6            23.859    4.191    5.692    0.000</span></pre></body></html></div>
-<div class="sourceCode" id="cb6"><html><body><pre class="r">
-<span class="fu"><a href="https://rdrr.io/pkg/semPlot/man/semPaths.html">semPaths</a></span>(<span class="no">fit_configural_unique</span>,
-         <span class="kw">what</span><span class="kw">=</span><span class="st">"path"</span>,
-         <span class="kw">whatLabels</span> <span class="kw">=</span> <span class="st">"name"</span>,
-         <span class="kw">sizeInt</span> <span class="kw">=</span> <span class="fl">4</span>, <span class="kw">sizeMan</span> <span class="kw">=</span> <span class="fl">5</span>, <span class="kw">sizeLat</span> <span class="kw">=</span> <span class="fl">6</span>)</pre></body></html></div>
+<span class="co">#&gt;    .voca6            23.859    4.191    5.692    0.000</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+<span class="fu"><a href="https://rdrr.io/pkg/semPlot/man/semPaths.html">semPaths</a></span><span class="op">(</span><span class="va">fit_configural_unique</span>, 
+         what<span class="op">=</span><span class="st">"path"</span>,
+         whatLabels <span class="op">=</span> <span class="st">"name"</span>,
+         sizeInt <span class="op">=</span> <span class="fl">4</span>, sizeMan <span class="op">=</span> <span class="fl">5</span>, sizeLat <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></code></pre></div>
 <p><img src="ram-online-tutorial_files/figure-html/unnamed-chunk-6-1.png" width="500"></p>
 </div>
 <div id="fit-statistics" class="section level2">
 <h2 class="hasAnchor">
 <a href="#fit-statistics" class="anchor"></a>Fit statistics</h2>
-<div class="sourceCode" id="cb7"><html><body><pre class="r">
-<span class="fu"><a href="../reference/minvariance.html">minvariance</a></span>(<span class="kw">data</span> <span class="kw">=</span> <span class="no">df</span>,
-            <span class="kw">var_list</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">t1</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"info1"</span>, <span class="st">"comp1"</span>, <span class="st">"simi1"</span>, <span class="st">"voca1"</span>),
-                            <span class="kw">t6</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"info6"</span>, <span class="st">"comp6"</span>, <span class="st">"simi6"</span>, <span class="st">"voca6"</span>)),
-            <span class="kw">remove</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">unique_covar</span> <span class="kw">=</span> <span class="no">T</span>),
-            <span class="kw">return</span> <span class="kw">=</span> <span class="st">"fit_statistics"</span>) <span class="kw">%&gt;%</span>
-  <span class="kw pkg">knitr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(<span class="kw">digits</span> <span class="kw">=</span> <span class="fl">3</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+<span class="fu"><a href="../reference/minvariance.html">minvariance</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">df</span>, 
+            var_list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"info1"</span>, <span class="st">"comp1"</span>, <span class="st">"simi1"</span>, <span class="st">"voca1"</span><span class="op">)</span>,
+                            t6 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"info6"</span>, <span class="st">"comp6"</span>, <span class="st">"simi6"</span>, <span class="st">"voca6"</span><span class="op">)</span><span class="op">)</span>,
+            remove <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>unique_covar <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>, 
+            return <span class="op">=</span> <span class="st">"fit_statistics"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span>digits <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left">model</th>
@@ -444,13 +448,14 @@
 <div id="model-tests" class="section level2">
 <h2 class="hasAnchor">
 <a href="#model-tests" class="anchor"></a>Model tests</h2>
-<div class="sourceCode" id="cb8"><html><body><pre class="r">
-<span class="fu"><a href="../reference/minvariance.html">minvariance</a></span>(<span class="kw">data</span> <span class="kw">=</span> <span class="no">df</span>,
-            <span class="kw">var_list</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">t1</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"info1"</span>, <span class="st">"comp1"</span>, <span class="st">"simi1"</span>, <span class="st">"voca1"</span>),
-                            <span class="kw">t6</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"info6"</span>, <span class="st">"comp6"</span>, <span class="st">"simi6"</span>, <span class="st">"voca6"</span>)),
-            <span class="kw">remove</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">unique_covar</span> <span class="kw">=</span> <span class="no">T</span>),
-            <span class="kw">return</span> <span class="kw">=</span> <span class="st">"model_tests"</span>) <span class="kw">%&gt;%</span>
-  <span class="kw pkg">knitr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(<span class="kw">digits</span> <span class="kw">=</span> <span class="fl">3</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+<span class="fu"><a href="../reference/minvariance.html">minvariance</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">df</span>, 
+            var_list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"info1"</span>, <span class="st">"comp1"</span>, <span class="st">"simi1"</span>, <span class="st">"voca1"</span><span class="op">)</span>,
+                            t6 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"info6"</span>, <span class="st">"comp6"</span>, <span class="st">"simi6"</span>, <span class="st">"voca6"</span><span class="op">)</span><span class="op">)</span>,
+            remove <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>unique_covar <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>, 
+            return <span class="op">=</span> <span class="st">"model_tests"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span>digits <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left"></th>
@@ -509,18 +514,20 @@
 <div id="lavaan-syntax" class="section level2">
 <h2 class="hasAnchor">
 <a href="#lavaan-syntax" class="anchor"></a>lavaan syntax</h2>
-<div class="sourceCode" id="cb9"><html><body><pre class="r">
-<span class="no">lminvar_syntax</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/minvariance.html">minvariance</a></span>(<span class="kw">data</span> <span class="kw">=</span> <span class="no">df</span>,
-                              <span class="kw">var_list</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">t1</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"info1"</span>, <span class="st">"comp1"</span>, <span class="st">"simi1"</span>, <span class="st">"voca1"</span>),
-                                              <span class="kw">t6</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"info6"</span>, <span class="st">"comp6"</span>, <span class="st">"simi6"</span>, <span class="st">"voca6"</span>)),
-                              <span class="kw">remove</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">unique_covar</span> <span class="kw">=</span> <span class="no">T</span>),
-                              <span class="kw">return</span> <span class="kw">=</span> <span class="st">"lavaan_syntax"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+<span class="va">lminvar_syntax</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/minvariance.html">minvariance</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">df</span>, 
+                              var_list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>t1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"info1"</span>, <span class="st">"comp1"</span>, <span class="st">"simi1"</span>, <span class="st">"voca1"</span><span class="op">)</span>,
+                                              t6 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"info6"</span>, <span class="st">"comp6"</span>, <span class="st">"simi6"</span>, <span class="st">"voca6"</span><span class="op">)</span><span class="op">)</span>,
+                              remove <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>unique_covar <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>, 
+                              return <span class="op">=</span> <span class="st">"lavaan_syntax"</span><span class="op">)</span> </code></pre></div>
 <div id="configural" class="section level3">
 <h3 class="hasAnchor">
 <a href="#configural" class="anchor"></a>Configural</h3>
-<div class="sourceCode" id="cb10"><html><body><pre class="r">
-<span class="no">lminvar_syntax</span>$<span class="no">configural</span> <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>()
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+<span class="va">lminvar_syntax</span><span class="op">$</span><span class="va">configural</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; #### CONFIGURAL INVARIANCE MODEL ####</span>
 <span class="co">#&gt; # Specify Latent Factors ----</span>
 <span class="co">#&gt; eta1 =~ NA * info1 + lambda1 * info1 + comp1 + simi1 + voca1</span>
@@ -552,14 +559,15 @@
 <span class="co">#&gt; simi6 ~~ simi6 </span>
 <span class="co">#&gt; voca6 ~~ voca6 </span>
 <span class="co">#&gt; # Specify Unique Covariances ----</span>
-<span class="co">#&gt; # REMOVED</span></pre></body></html></div>
+<span class="co">#&gt; # REMOVED</span></code></pre></div>
 </div>
 <div id="weak" class="section level3">
 <h3 class="hasAnchor">
 <a href="#weak" class="anchor"></a>Weak</h3>
-<div class="sourceCode" id="cb11"><html><body><pre class="r">
-<span class="no">lminvar_syntax</span>$<span class="no">weak</span> <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>()
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+<span class="va">lminvar_syntax</span><span class="op">$</span><span class="va">weak</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; #### WEAK INVARIANCE MODEL ####</span>
 <span class="co">#&gt; # Specify Latent Factors ----</span>
 <span class="co">#&gt; eta1 =~ NA * info1 + lambda1 * info1 + lambda2 * comp1 + lambda3 * simi1 + lambda4 * voca1</span>
@@ -591,14 +599,15 @@
 <span class="co">#&gt; simi6 ~~ simi6 </span>
 <span class="co">#&gt; voca6 ~~ voca6 </span>
 <span class="co">#&gt; # Specify Unique Covariances ----</span>
-<span class="co">#&gt; # REMOVED</span></pre></body></html></div>
+<span class="co">#&gt; # REMOVED</span></code></pre></div>
 </div>
 <div id="strong" class="section level3">
 <h3 class="hasAnchor">
 <a href="#strong" class="anchor"></a>Strong</h3>
-<div class="sourceCode" id="cb12"><html><body><pre class="r">
-<span class="no">lminvar_syntax</span>$<span class="no">strong</span> <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>()
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+<span class="va">lminvar_syntax</span><span class="op">$</span><span class="va">strong</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; #### STRONG INVARIANCE MODEL ####</span>
 <span class="co">#&gt; # Specify Latent Factors ----</span>
 <span class="co">#&gt; eta1 =~ NA * info1 + lambda1 * info1 + lambda2 * comp1 + lambda3 * simi1 + lambda4 * voca1</span>
@@ -630,14 +639,15 @@
 <span class="co">#&gt; simi6 ~~ simi6 </span>
 <span class="co">#&gt; voca6 ~~ voca6 </span>
 <span class="co">#&gt; # Specify Unique Covariances ----</span>
-<span class="co">#&gt; # REMOVED</span></pre></body></html></div>
+<span class="co">#&gt; # REMOVED</span></code></pre></div>
 </div>
 <div id="strict" class="section level3">
 <h3 class="hasAnchor">
 <a href="#strict" class="anchor"></a>Strict</h3>
-<div class="sourceCode" id="cb13"><html><body><pre class="r">
-<span class="no">lminvar_syntax</span>$<span class="no">strict</span> <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>()
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+<span class="va">lminvar_syntax</span><span class="op">$</span><span class="va">strict</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; #### STRICT INVARIANCE MODEL ####</span>
 <span class="co">#&gt; # Specify Latent Factors ----</span>
 <span class="co">#&gt; eta1 =~ NA * info1 + lambda1 * info1 + lambda2 * comp1 + lambda3 * simi1 + lambda4 * voca1</span>
@@ -669,7 +679,7 @@
 <span class="co">#&gt; simi6 ~~ theta3 * simi6 </span>
 <span class="co">#&gt; voca6 ~~ theta4 * voca6 </span>
 <span class="co">#&gt; # Specify Unique Covariances ----</span>
-<span class="co">#&gt; # REMOVED</span></pre></body></html></div>
+<span class="co">#&gt; # REMOVED</span></code></pre></div>
 </div>
 </div>
   </div>
@@ -685,11 +695,11 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Milan Wiedemann.</p>
+  <p>Developed by Milan Wiedemann, Urška Košir.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
