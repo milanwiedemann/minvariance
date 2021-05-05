@@ -4,15 +4,14 @@
 # minvariance
 
 <!-- badges: start -->
-
 <!-- badges: end -->
 
-The goal of `minvariance` is to help me understand longitudinal
-measurement invariance. I’m trying to see which parts of this method can
-be automated. The vignettes on the
-[website](https://milanwiedemann.github.io/minvariance/) of this package
-replicate some example I found online. **If you have any questions,
-ideas, or comments please get in touch.**
+The goal of `minvariance` is to aid the understanding of longitudinal
+measurement invariance and see which parts of this method can be
+automated. The vignettes on the [website of this
+package](https://milanwiedemann.github.io/minvariance/) replicate some
+examples found online. **If you have any questions, ideas, or comments
+please get in touch.**
 
 ## Installation
 
@@ -26,12 +25,12 @@ devtools::install_github("milanwiedemann/minvariance")
 
 ``` r
 library(tidyverse)
-#> ── Attaching packages ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse 1.3.0 ──
-#> ✓ ggplot2 3.3.2          ✓ purrr   0.3.4     
-#> ✓ tibble  3.0.3.9000     ✓ dplyr   1.0.0     
-#> ✓ tidyr   1.1.0          ✓ stringr 1.4.0     
-#> ✓ readr   1.3.1          ✓ forcats 0.5.0
-#> ── Conflicts ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+#> ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──
+#> ✓ ggplot2 3.3.3     ✓ purrr   0.3.4
+#> ✓ tibble  3.1.0     ✓ dplyr   1.0.5
+#> ✓ tidyr   1.1.3     ✓ stringr 1.4.0
+#> ✓ readr   1.4.0     ✓ forcats 0.5.1
+#> ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 #> x dplyr::filter() masks stats::filter()
 #> x dplyr::lag()    masks stats::lag()
 library(minvariance)
@@ -122,28 +121,28 @@ long_minvariance_syntax(var_list = list(t1 = c("a1", "b1", "c1"),
 
 R functions to test for longitudinal factorial/measurement invariance
 
-  - [Longitudinal Factor Analysis - Measurement Invariance by Nilam
+-   [Longitudinal Factor Analysis - Measurement Invariance by Nilam
     Ram](https://quantdev.ssri.psu.edu/tutorials/intro-basics-longitudinal-measurement-invariance)
-  - [Measurement Matters Resource List by Eiko Fried and Jessica
+-   [Measurement Matters Resource List by Eiko Fried and Jessica
     Flake](https://docs.google.com/document/d/11jyoXtO0m2lUywpC04KjLvI5QcBUY4YtwEvw6cg2cMs)
-  - [Fried et al (2016). Measuring depression over time . . . Or not?
+-   [Fried et al (2016). Measuring depression over time . . . Or not?
     Lack of unidimensionality and longitudinal measurement invariance in
     four common rating scales of depression. Psychological
     Assessment.](https://doi.org/10.1037/pas0000275) and [Supplemental
     Materials](http://supp.apa.org/psycarticles/supplemental/pas0000275/supplementary_materials.zip)
     with Mplus files
-  - [Grimm (2017) - lavaan Code for Chapter 14 - Modeling Change with
+-   [Grimm (2017) - lavaan Code for Chapter 14 - Modeling Change with
     Latent Variables Measured by Continuous Indicators by Julie
     Wood](https://quantdev.ssri.psu.edu/tutorials/growth-modeling-chapter-14-modeling-change-latent-variables-measured-continuous-indicators)
-  - [MIE - Measurement invariance explorer (R package) by Maksim
+-   [MIE - Measurement invariance explorer (R package) by Maksim
     Rudnev](https://github.com/MaksimRudnev/MIE.package)
-  - [“A Tutorial in Longitudinal Measurement Invariance Using Lavaan” by
+-   [“A Tutorial in Longitudinal Measurement Invariance Using Lavaan” by
     Robin Curtis, Sean Mackinnon, Roisin
     O’Connor](https://psyarxiv.com/tkzrb/)
-  - [measEq.syntax
+-   [measEq.syntax
     {semTools}](https://www.rdocumentation.org/packages/semTools/versions/0.5-2/topics/measEq.syntax)
-  - [On dimensionality, measurement invariance and suitabilityof sum
+-   [On dimensionality, measurement invariance and suitabilityof sum
     scores for the PHQ-9 and the GAD-7](https://osf.io/arufy/) with
     Mplus Code using mplusautomation
-  - [lavaan
+-   [lavaan
     group](https://groups.google.com/forum/#!topic/lavaan/nfdatPgLLhc)

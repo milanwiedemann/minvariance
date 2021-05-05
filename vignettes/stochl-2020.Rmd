@@ -1,0 +1,60 @@
+---
+title: "Replicating multiple factor longitudinal measurement invariance"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Replicating Online Tutorial}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
+---
+
+- [Paper and Code (by Jan Stochl Eiko I. Fried Jessica Fritz Tim Croudace Clare Knight Peter B. Jones Jesus Perez)](https://osf.io/us27d/)
+
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(minvariance)
+library(tidyverse)
+library(lavaan)
+library(semPlot)
+```
+
+## Load data
+
+```{r}
+
+filepath <- "https://osf.io/ajgx5/download"
+df <- load(file = url(filepath))
+
+```
+
+# Select data
+
+```{r}
+# Only take 20 to start
+
+phq_items_wide_20pct <- phq_items_wide %>% 
+  as_tibble() %>% 
+  dplyr::sample_frac(.005)
+
+minvariance_test <- minvariance(data = phq_items_wide_20pct,  
+                                var_list = list(t1 = c(paste0("i", 1:9, "_1")),
+                                                t2 = c(paste0("i", 1:9, "_2")),
+                                                t3 = c(paste0("i", 1:9, "_3")),
+                                                t4 = c(paste0("i", 1:9, "_4")),
+                                                t5 = c(paste0("i", 1:9, "_5")),
+                                                t6 = c(paste0("i", 1:9, "_6")),
+                                                t7 = c(paste0("i", 1:9, "_7")),
+                                                t8 = c(paste0("i", 1:9, "_8")),
+                                                t9 = c(paste0("i", 1:9, "_9")),
+                                                t10 = c(paste0("i", 1:9, "_10"))),
+                                return = "lavaan_syntax")
+
+```
