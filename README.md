@@ -7,11 +7,11 @@
 <!-- badges: end -->
 
 The goal of `minvariance` is to aid the understanding of longitudinal
-measurement invariance and see which parts of this method can be
-automated. The vignettes on the [website of this
-package](https://milanwiedemann.github.io/minvariance/) replicate some
-examples found online. **If you have any questions, ideas, or comments
-please get in touch.**
+measurement invariance and see which parts of this method could be
+automated in R. The vignettes on the [website of this
+package](https://milanwiedemann.github.io/minvariance/) aim to replicate
+some examples found online. **If you have any questions, ideas, or
+comments please get in touch.**
 
 ## Installation
 
@@ -77,8 +77,6 @@ long_minvariance_syntax(var_list = list(t1 = c("i1_t1", "i2_t1", "i3_t1"),
 Here’s another example with different variable names
 
 ``` r
-library(tidyverse)
-
 # Generate lavaan syntax
 long_minvariance_syntax(var_list = list(t1 = c("a1", "b1", "c1"), 
                                         t2 = c("a2", "b2", "c2")), 

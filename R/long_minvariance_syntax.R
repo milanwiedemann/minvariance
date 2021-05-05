@@ -29,9 +29,6 @@ long_minvariance_syntax <- function(var_list, add = NULL, remove = NULL, model =
 
   n_items <- unique(lengths(var_list))
 
-
-
-
   if (is.null(remove$unique_covar) == TRUE) {
     remove$unique_covar <- FALSE
   }
@@ -105,8 +102,6 @@ long_minvariance_syntax <- function(var_list, add = NULL, remove = NULL, model =
     lavaan_str_unique_covariances <- "# Specify Unique Covariances ----\n# REMOVED\n"
   }
 
-
-
   if (is.null(add) == TRUE) {
     add_lavaan_syntax <- ""
   }
@@ -129,10 +124,7 @@ long_minvariance_syntax <- function(var_list, add = NULL, remove = NULL, model =
                                       add_lavaan_syntax,
                                       collapse = "")
 
-
   # NOW RENAME
-
-
   str_replace_pattern <- var_list %>%
     unlist()
 
@@ -141,14 +133,9 @@ long_minvariance_syntax <- function(var_list, add = NULL, remove = NULL, model =
     purrr::map(~ paste0(.x, item_str, 1:n_items)) %>%
     unlist()
 
-
   lavaan_str_return <- str_replace_all(string = lavaan_str_temp,
                   pattern = str_replace_pattern)
 
-
   return(lavaan_str_return)
+
 }
-
-
-
-

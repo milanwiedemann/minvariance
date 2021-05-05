@@ -56,10 +56,12 @@ minvariance(data = df,
 ## Fit statistics
 
 ```{r, warning=F}
+
 minvariance(data = df, 
             var_list = timepoints, 
             return = "fit_statistics") %>% 
   knitr::kable(digits = 3)
+
 ```
 
 ## Model tests
@@ -79,8 +81,8 @@ minvariance(data = df,
 ```{r}
 
 lminvar_syntax <- minvariance(data = df, 
-                             var_list = timepoints, 
-                             return = "lavaan_syntax") 
+                              var_list = timepoints, 
+                              return = "lavaan_syntax") 
 
 ```
 
